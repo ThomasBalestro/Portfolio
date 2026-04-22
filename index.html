@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Développeur Web & Logiciel</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#hero" class="nav-logo">PORT<span style="color:#7c3aed">.</span>FOLIO</a>
+
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#projects" class="nav-link-item">Projets</a></li>
+    <li><a href="#skills"   class="nav-link-item">Skills</a></li>
+    <li><a href="#parcours" class="nav-link-item">Parcours</a></li>
+    <li><a href="#contact"  class="nav-link-item">Contact</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      Disponible
+    </div>
+    <!-- Burger — visible uniquement sur mobile/tablette -->
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Overlay menu mobile -->
+<div class="nav-overlay" id="nav-overlay">
+  <ul class="nav-overlay-links">
+    <li><a href="#projects" class="nav-overlay-item">Projets</a></li>
+    <li><a href="#skills"   class="nav-overlay-item">Skills</a></li>
+    <li><a href="#parcours" class="nav-overlay-item">Parcours</a></li>
+    <li><a href="#contact"  class="nav-overlay-item">Contact</a></li>
+  </ul>
+</div>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+
+  <div class="hero-inner">
+    <div class="hero-tag">
+      <div class="hero-tag-dot"></div>
+      Développeur Web &amp; Logiciel
+    </div>
+
+    <h1 class="hero-name">Thomas<br><span>Balestro</span></h1>
+    <p class="hero-subtitle">Je construis des expériences numériques.</p>
+    <p class="hero-typing" id="typing-text"><span class="cursor"></span></p>
+
+    <p class="hero-desc">
+      Passionné par la création de solutions web modernes et performantes.
+      J'explore de nouvelles technologies pour construire des projets ambitieux —
+      du backend robuste aux interfaces qui captivent.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">▸ Voir mes projets</a>
+      <a href="#contact"  class="btn-ghost">Entrer en contact →</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ─── PROJECTS ─── -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label">// 01</div>
+    <h2 class="section-title reveal">Projets &amp;<br>Réalisations</h2>
+
+    <div class="projects-grid">
+
+      <!-- PROJECT 001 — FEATURED -->
+      <div class="project-card featured reveal">
+        <div>
+          <span class="project-number">PROJECT_001</span>
+          <div class="project-status status-ongoing"><span>●</span> En cours</div>
+          <h3 class="project-title">Votre Projet Phare</h3>
+          <p class="project-desc">
+            Décrivez votre projet le plus ambitieux ici. Quel problème résout-il ?
+            Quelle technologie innovante utilisez-vous ? Quel est l'impact attendu ?
+            Ce projet représente votre vision et vos compétences les plus avancées.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">TypeScript</span>
+          </div>
+          <div class="project-footer">
+            <a href="#" class="project-link">Voir le projet →</a>
+            <a href="#" class="project-link">GitHub →</a>
+          </div>
+        </div>
+        <div class="project-visual">
+          <div class="visual-icon">⚡</div>
+        </div>
+      </div>
+
+      <!-- PROJECT 002 — Sites Internet -->
+      <div class="project-card reveal" href="">
+        <span class="project-number">PROJECT_002</span>
+        <div class="project-status status-planned"><span>◎</span> En construction</div>
+        <h3 class="project-title">Sites Internet</h3>
+        <p class="project-desc">
+          Sites vitrine, landing pages et projets institutionnels.
+          Du design soigné à l'optimisation SEO — tous mes projets web de présentation.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+          <span class="tech-tag">Next.js</span>
+          <span class="tech-tag">Tailwind</span>
+        </div>
+        <div class="project-footer">
+          <a href="page/sites-internet.html" class="project-link">Voir les projets →</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 003 — Projets Web -->
+      <div class="project-card reveal">
+        <span class="project-number">PROJECT_003</span>
+        <div class="project-status status-ongoing"><span>●</span> En cours</div>
+        <h3 class="project-title">Projets Web</h3>
+        <p class="project-desc">
+          Applications web, dashboards, SaaS et plateformes en ligne.
+          Tout ce qui vit dans le navigateur et va bien au-delà d'un simple site.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">PostgreSQL</span>
+        </div>
+        <div class="project-footer">
+          <a href="page/projets-web.html" class="project-link">Voir les projets →</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 004 — Applications -->
+      <div class="project-card reveal">
+        <span class="project-number">PROJECT_004</span>
+        <div class="project-status status-planned"><span>◎</span> Planifié</div>
+        <h3 class="project-title">Applications</h3>
+        <p class="project-desc">
+          Logiciels desktop, apps mobiles, outils CLI et scripts.
+          Tout ce qui s'installe, s'exécute en local ou tourne en arrière-plan.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">Electron</span>
+          <span class="tech-tag">React Native</span>
+          <span class="tech-tag">Python</span>
+        </div>
+        <div class="project-footer">
+          <a href="page/applications.html" class="project-link">Voir les projets →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── SKILLS ─── -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label">// 02</div>
+    <h2 class="section-title reveal">Compétences<br>&amp; Technologies</h2>
+
+    <div class="skills-layout">
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Frontend</div>
+        <div class="skill-item">
+          <div class="skill-name"><span>React / Next.js</span><span class="skill-pct">90%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.90"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>TypeScript</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>CSS / Tailwind</span><span class="skill-pct">88%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.88"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Backend</div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Node.js / Express</span><span class="skill-pct">85%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Python / FastAPI</span><span class="skill-pct">78%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.78"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>SQL / PostgreSQL</span><span class="skill-pct">80%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.80"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">DevOps &amp; Outils</div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Docker</span><span class="skill-pct">75%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.75"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Git / GitHub</span><span class="skill-pct">92%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.92"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>CI/CD</span><span class="skill-pct">70%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.70"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">En apprentissage</div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Rust</span><span class="skill-pct">35%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.35"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>WebAssembly</span><span class="skill-pct">25%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.25"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-name"><span>Web3 / Blockchain</span><span class="skill-pct">30%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.30"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── PARCOURS ─── -->
+<section id="parcours">
+  <div class="section-wrap">
+    <div class="section-label">// 03</div>
+    <h2 class="section-title reveal">Parcours<br>&amp; Expériences</h2>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2024 — Aujourd'hui</div>
+        <div class="timeline-role">Développeur Full-Stack</div>
+        <div class="timeline-org">Entreprise / Freelance • Ville</div>
+        <div class="timeline-desc">
+          Décrivez vos responsabilités et réalisations. Utilisez des verbes d'action
+          et des métriques concrètes quand c'est possible.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2022 — 2024</div>
+        <div class="timeline-role">Développeur Frontend</div>
+        <div class="timeline-org">Entreprise précédente • Ville</div>
+        <div class="timeline-desc">
+          Décrivez votre expérience précédente, les projets sur lesquels vous avez
+          travaillé, et les compétences que vous avez développées.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2019 — 2022</div>
+        <div class="timeline-role">Formation — Nom du diplôme</div>
+        <div class="timeline-org">École / Université • Ville</div>
+        <div class="timeline-desc">
+          Décrivez votre formation, spécialisation, projets universitaires notables,
+          ou associations étudiantes pertinentes.
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2018</div>
+        <div class="timeline-role">Premiers pas en code</div>
+        <div class="timeline-org">Auto-formation • En ligne</div>
+        <div class="timeline-desc">
+          D'où vient votre passion ? Racontez brièvement comment vous avez commencé
+          à coder — cela humanise votre profil.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="contact-box reveal">
+      <div class="section-label" style="justify-content:center; margin-bottom:24px">// 04</div>
+      <h2 class="contact-title">Construisons<br>quelque chose.</h2>
+      <p class="contact-sub">
+        Disponible pour des projets freelance, des collaborations
+        et des opportunités professionnelles.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:thomas.balestro@gmail.com" class="contact-link">✉ Email</a>
+        <a href="www.linkedin.com/in/thomas-balestro"   class="contact-link" target="_blank">in LinkedIn</a>
+        <a href="https://github.com/ThomasBalestro"     class="contact-link" target="_blank">⌥ GitHub</a>
+        <a href="#"                      class="contact-link">↓ CV PDF</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div>Conçu &amp; développé par <span>Thomas Balestro</span></div>
+  <div>© 2025 — <span>Tous droits réservés</span></div>
+</footer>
+
+<!-- Script -->
+<script src="js/main.js"></script>
+
+</body>
+</html>
