@@ -3,6 +3,18 @@
    main.js
    ============================================================ */
 
+/* ─── EMAIL ANTI-SPAM ───
+   L'adresse est fragmentée pour tromper les scrapers de bots.
+   Elle est reconstruite en JS et injectée sur le bouton au chargement. ── */
+(function () {
+  const u     = 'thomas' + '.balestro';
+  const d     = 'gmail'  + '.com';
+  const email = u + '@' + d;
+
+  const btn = document.getElementById('mailto-btn');
+  if (btn) btn.href = 'mailto:' + email;
+})();
+
 /* ─── CARTES CLIQUABLES ─── */
 document.querySelectorAll('.project-card[data-href]').forEach(card => {
   card.addEventListener('click', () => {
