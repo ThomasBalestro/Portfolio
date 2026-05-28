@@ -90,33 +90,22 @@ function type() {
 type();
 
 /* ─── SCROLL REVEAL ─── */
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-
-    entry.target.classList.add('visible');
-
-    /* Animate skill bars when their parent becomes visible */
-    entry.target.querySelectorAll('.skill-fill').forEach((bar) => {
-      bar.style.transitionDelay = Math.random() * 0.3 + 's';
-      bar.style.transform = `scaleX(${bar.style.getPropertyValue('--w') || 1})`;
-    });
-  });
-}, { threshold: 0.08 });
-
-const revealEls = document.querySelectorAll('.reveal, .timeline-item, .skill-group');
-
-revealEls.forEach((el) => revealObserver.observe(el));
-
-/* Éléments déjà dans le viewport au chargement (pages sans scroll) */
-window.addEventListener('load', () => {
-  revealEls.forEach((el) => {
+function revealVisible() {
+  document.querySelectorAll('.reveal, .timeline-item, .skill-group').forEach(el => {
     const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
+    if (rect.top < window.innerHeight + 50 && rect.bottom > -50) {
       el.classList.add('visible');
-      el.querySelectorAll('.skill-fill').forEach((bar) => {
+      el.querySelectorAll('.skill-fill').forEach(bar => {
+        bar.style.transitionDelay = Math.random() * 0.3 + 's';
         bar.style.transform = `scaleX(${bar.style.getPropertyValue('--w') || 1})`;
       });
     }
   });
-});
+}
+
+/* Déclenchements multiples pour couvrir tous les cas (index + pages annexes) */
+document.addEventListener('DOMContentLoaded', revealVisible);
+window.addEventListener('load', revealVisible);
+window.addEventListener('scroll', revealVisible, { passive: true });
+setTimeout(revealVisible, 100);
+setTimeout(revealVisible, 500);
