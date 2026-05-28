@@ -102,8 +102,21 @@ const revealObserver = new IntersectionObserver((entries) => {
       bar.style.transform = `scaleX(${bar.style.getPropertyValue('--w') || 1})`;
     });
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.08 });
 
-document
-  .querySelectorAll('.reveal, .timeline-item, .skill-group')
-  .forEach((el) => revealObserver.observe(el));
+const revealEls = document.querySelectorAll('.reveal, .timeline-item, .skill-group');
+
+revealEls.forEach((el) => revealObserver.observe(el));
+
+/* Éléments déjà dans le viewport au chargement (pages sans scroll) */
+window.addEventListener('load', () => {
+  revealEls.forEach((el) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('visible');
+      el.querySelectorAll('.skill-fill').forEach((bar) => {
+        bar.style.transform = `scaleX(${bar.style.getPropertyValue('--w') || 1})`;
+      });
+    }
+  });
+});
