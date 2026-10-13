@@ -778,3 +778,23 @@ footer span { color: var(--cyan); }
   html { scroll-behavior: auto; }
 }
 .project-card:not([data-href]) { cursor: default; }
+
+/* ─── AJOUTS : DÉMOS, SITES, CATÉGORIES À VENIR ─── */
+.status-demo { color: #fbbf24; border: 1px solid rgba(251,191,36,.35); background: rgba(251,191,36,.06); }
+
+/* Palette d'un site vitrine, en pastilles */
+.site-swatch { display: flex; gap: 6px; margin: -4px 0 16px; }
+.site-swatch i { width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(255,255,255,.15); }
+
+.demo-note { color: var(--muted); font-size: 12px; margin: -28px 0 32px; }
+.demo-note strong { color: var(--text); font-weight: 500; }
+
+/* Catégories pas encore ouvertes : visibles mais en retrait */
+.project-card.soon { border-style: dashed; cursor: default; }
+.project-card.soon:hover { transform: none; border-color: var(--purple); }
+.project-card.soon .project-title { color: var(--text); }
+.project-card.soon .tech-tag { opacity: .6; }
+
+/* Le halo décoratif des cartes ne doit pas intercepter les clics
+   (sinon les liens internes, ex. « GitHub → », sont inaccessibles) */
+.project-card::before, .project-card::after { pointer-events: none; }

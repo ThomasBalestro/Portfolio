@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="robots" content="noindex, follow" />
+  <title>Flux — Tableau Kanban (démo)</title>
+  <meta name="description" content="Démo interactive réalisée par Thomas Balestro : tableau Kanban avec glisser-déposer et sauvegarde locale." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111'/%3E%3Crect x='12' y='14' width='10' height='36' rx='3' fill='%23ffd166'/%3E%3Crect x='27' y='14' width='10' height='24' rx='3' fill='%2306d6a0'/%3E%3Crect x='42' y='14' width='10' height='14' rx='3' fill='%23ef476f'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg: #111214; --col: #1b1c20; --card: #26272d; --card-2: #2e2f36; --ink: #f2f2f0; --soft: #9a9ba3; --line: #34353d; --y: #ffd166; --g: #06d6a0; --r: #ef476f; --b: #118ab2; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--ink); font-family: 'Sora', sans-serif; font-size: 14px; line-height: 1.5; min-height: 100vh; }
+    .demo { background: var(--y); color: #111; font-size: 12.5px; text-align: center; padding: 7px 16px; font-weight: 600; }
+    .demo a { color: #111; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 28px; flex-wrap: wrap; }
+    h1 { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 12px; }
+    h1 i { display: inline-flex; gap: 3px; font-style: normal; }
+    h1 i b { width: 6px; border-radius: 2px; } h1 i b:nth-child(1) { height: 22px; background: var(--y); } h1 i b:nth-child(2) { height: 15px; background: var(--g); margin-top: 7px; } h1 i b:nth-child(3) { height: 9px; background: var(--r); margin-top: 13px; }
+    .stats { color: var(--soft); font-size: 13px; }
+    .stats b { color: var(--ink); }
+    form { display: flex; gap: 8px; flex-wrap: wrap; }
+    input, select { background: var(--col); border: 1px solid var(--line); color: var(--ink); font: inherit; padding: 10px 14px; border-radius: 10px; }
+    input { width: 280px; max-width: 60vw; }
+    input:focus, select:focus { outline: 2px solid var(--y); outline-offset: 1px; }
+    .add { background: var(--y); color: #111; border: 0; font: inherit; font-weight: 700; padding: 10px 18px; border-radius: 10px; cursor: pointer; }
+    .ghost { background: none; border: 1px solid var(--line); color: var(--soft); font: inherit; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+    .ghost:hover { color: var(--ink); }
+    .board { display: grid; grid-template-columns: repeat(3, minmax(260px, 1fr)); gap: 16px; padding: 0 28px 40px; align-items: start; }
+    .col { background: var(--col); border-radius: 16px; padding: 14px; min-height: 340px; border: 2px dashed transparent; transition: border-color .2s, background .2s; }
+    .col.over { border-color: var(--y); background: #212226; }
+    .col-head { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px 14px; }
+    .col-head h2 { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .col-head h2::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--dot); }
+    .count { background: var(--card); color: var(--soft); border-radius: 999px; padding: 1px 10px; font-size: 12px; font-weight: 600; }
+    .list { display: grid; gap: 10px; min-height: 60px; }
+    .task { background: var(--card); border-radius: 12px; padding: 14px; cursor: grab; border-left: 4px solid var(--prio); transition: transform .15s, box-shadow .15s, opacity .15s; }
+    .task:hover { background: var(--card-2); }
+    .task.dragging { opacity: .4; transform: rotate(2deg); }
+    .task p { font-weight: 600; word-break: break-word; }
+    .meta { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 8px; }
+    .tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--prio); }
+    .acts { display: flex; gap: 4px; }
+    .acts button { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--line); background: none; color: var(--soft); cursor: pointer; font-size: 13px; }
+    .acts button:hover { color: var(--ink); border-color: var(--soft); }
+    .acts button:disabled { opacity: .25; cursor: default; }
+    .empty { color: var(--soft); text-align: center; font-size: 13px; padding: 24px 8px; border: 1px dashed var(--line); border-radius: 12px; }
+    .done .task p { text-decoration: line-through; color: var(--soft); }
+    @media (max-width: 900px) { .board { grid-template-columns: 1fr; } header { padding: 18px 16px; } .board { padding: 0 16px 32px; } input { width: 100%; max-width: none; flex: 1 1 100%; } }
+  </style>
+</head>
+<body>
+<div class="demo">Démo interactive — vos tâches restent dans ce navigateur · Thomas Balestro · <a href="../../page/projets-web.html">Retour au portfolio</a></div>
+<header>
+  <div>
+    <h1><i><b></b><b></b><b></b></i>Flux</h1>
+    <div class="stats" id="stats"></div>
+  </div>
+  <form id="form" autocomplete="off">
+    <label class="sr" for="title" hidden>Nouvelle tâche</label>
+    <input id="title" maxlength="120" placeholder="Nouvelle tâche…" required />
+    <select id="prio" aria-label="Priorité">
+      <option value="low">Basse</option>
+      <option value="mid" selected>Moyenne</option>
+      <option value="high">Haute</option>
+    </select>
+    <button class="add" type="submit">Ajouter</button>
+    <button class="ghost" type="button" id="reset" title="Remettre les tâches d'exemple">Réinitialiser</button>
+  </form>
+</header>
+<div class="board" id="board">
+  <section class="col" data-col="todo" style="--dot:var(--y)"><div class="col-head"><h2>À faire</h2><span class="count"></span></div><div class="list"></div></section>
+  <section class="col" data-col="doing" style="--dot:var(--b)"><div class="col-head"><h2>En cours</h2><span class="count"></span></div><div class="list"></div></section>
+  <section class="col done" data-col="done" style="--dot:var(--g)"><div class="col-head"><h2>Terminé</h2><span class="count"></span></div><div class="list"></div></section>
+</div>
+<script src="app.js" defer></script>
+</body>
+</html>

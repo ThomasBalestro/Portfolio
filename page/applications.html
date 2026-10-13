@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Applications &amp; jeux Unity — Thomas Balestro</title>
-  <meta name="description" content="RPG Medieval V1 et Idle Medieval : deux jeux 2D développés sous Unity 6 en C# par Thomas Balestro — génération procédurale, craft, commerce et gestion." />
+  <meta name="description" content="Jeux Unity 6 en C# (RPG procédural, jeu de gestion idle), générateur de mots de passe sécurisé et app mobile de budget : les applications de Thomas Balestro." />
   <meta name="author" content="Thomas Balestro" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://thomasbalestro.github.io/Portfolio/page/applications.html" />
@@ -18,7 +18,7 @@
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="Thomas Balestro — Portfolio" />
   <meta property="og:title" content="Applications &amp; jeux Unity — Thomas Balestro" />
-  <meta property="og:description" content="RPG Medieval V1 et Idle Medieval : deux jeux 2D développés sous Unity 6 en C# par Thomas Balestro — génération procédurale, craft, commerce et gestion." />
+  <meta property="og:description" content="Jeux Unity 6 en C# (RPG procédural, jeu de gestion idle), générateur de mots de passe sécurisé et app mobile de budget : les applications de Thomas Balestro." />
   <meta property="og:url" content="https://thomasbalestro.github.io/Portfolio/page/applications.html" />
   <meta property="og:image" content="https://thomasbalestro.github.io/Portfolio/media/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -250,8 +250,8 @@
   <div class="page-category">// Catégorie 03</div>
   <h1 class="page-title">Appli<span>cations</span></h1>
   <p class="page-desc">
-    Jeux et logiciels qui s'installent et tournent en local.
-    Aujourd'hui : deux jeux 2D médiévaux développés sous Unity 6 en C#.
+    Jeux, outils et applications mobiles : deux jeux 2D sous Unity 6,
+    un générateur de mots de passe sécurisé et un prototype d'app de budget.
   </p>
   <div class="page-count">
     <span id="project-count">0</span> application(s) référencée(s)
@@ -266,6 +266,8 @@
     <button class="filter-btn" data-filter="jeu">Jeux vidéo</button>
     <button class="filter-btn" data-filter="procedural">Génération procédurale</button>
     <button class="filter-btn" data-filter="gestion">Gestion / Idle</button>
+    <button class="filter-btn" data-filter="securite">Sécurité</button>
+    <button class="filter-btn" data-filter="mobile">Mobile</button>
   </div>
 
   <div class="projects-grid" id="projects-grid">
@@ -333,6 +335,50 @@
       <div class="project-footer">
         <span class="project-link muted">Code privé · en développement</span>
       </div>
+    </article>
+
+
+    <article class="project-card reveal" id="cadenas" data-tags="securite outil" data-href="../demos/cadenas/index.html" data-target="_blank">
+        <span class="project-number">APP_003</span>
+        <div class="platform-badge">🔐 Outil — navigateur</div>
+        <div class="project-status status-demo"><span>◆</span> Démo interactive</div>
+        <h3 class="project-title">Cadenas</h3>
+        <p class="project-desc">Générateur de mots de passe et de phrases de passe façon application de bureau, avec un testeur de robustesse. Rien ne quitte le navigateur.</p>
+        <ul class="project-features">
+          <li>Aléa cryptographique sans biais (tirage par rejet)</li>
+          <li>Calcul d'entropie et estimation du temps de cassage</li>
+          <li>Détection des motifs faibles (suites, mots courants)</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Web Crypto API</span>
+          <span class="tech-tag">CSP stricte</span>
+        </div>
+        <div class="project-footer">
+          <a href="../demos/cadenas/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Ouvrir l'app →</a>
+        </div>
+    </article>
+
+    <article class="project-card reveal" id="budgie" data-tags="mobile gestion" data-href="../demos/budgie/index.html" data-target="_blank">
+        <span class="project-number">APP_004</span>
+        <div class="platform-badge">📱 Mobile — prototype web</div>
+        <div class="project-status status-demo"><span>◆</span> Prototype interactif</div>
+        <h3 class="project-title">Budgie</h3>
+        <p class="project-desc">Prototype d'application mobile de suivi de budget : on note une dépense en trois touches et on voit où part l'argent du mois.</p>
+        <ul class="project-features">
+          <li>Interface mobile plein écran, cadre téléphone sur ordinateur</li>
+          <li>Graphique par catégorie et navigation mois par mois</li>
+          <li>Données locales validées à chaque lecture</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">SVG</span>
+          <span class="tech-tag">Mobile-first</span>
+          <span class="tech-tag">localStorage</span>
+        </div>
+        <div class="project-footer">
+          <a href="../demos/budgie/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Ouvrir le prototype →</a>
+        </div>
     </article>
 
     <!-- ══ AJOUTE TES PROCHAINES APPLICATIONS ICI ══ -->

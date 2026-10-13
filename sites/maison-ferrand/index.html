@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <!-- Entreprise fictive : site de démonstration, exclu des moteurs de recherche -->
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Maison Ferrand — Boulangerie au levain, Croix-Rousse (démo)</title>
+  <meta name="description" content="Site de démonstration réalisé par Thomas Balestro : boulangerie artisanale fictive au levain naturel." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='36' rx='26' ry='16' fill='%23b5562a'/%3E%3Cpath d='M18 30q6-8 10 0M30 28q6-8 10 0M42 30q5-7 8 0' stroke='%23f6efe4' stroke-width='3' fill='none'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Karla:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f6efe4; --paper: #fbf7f0; --crust: #b5562a; --crust-dark: #8f3f1c;
+      --wheat: #e3c27a; --brown: #2b1d14; --muted: #6f5a4a; --line: #e2d5c2;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--brown); font-family: 'Karla', sans-serif; font-size: 17px; line-height: 1.65; overflow-x: hidden; }
+    a { color: inherit; }
+    img, svg { display: block; max-width: 100%; }
+    .wrap { width: min(1120px, 100% - 48px); margin-inline: auto; }
+
+    /* Bandeau démo */
+    .demo { background: var(--brown); color: var(--cream); font-size: 13px; text-align: center; padding: 8px 16px; letter-spacing: .02em; }
+    .demo a { color: var(--wheat); font-weight: 700; }
+
+    /* Navigation */
+    header { position: sticky; top: 0; z-index: 50; background: rgba(246,239,228,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { font-family: 'Fraunces', serif; font-weight: 800; font-size: 24px; text-decoration: none; letter-spacing: -.02em; }
+    .logo em { font-style: italic; font-weight: 400; color: var(--crust); }
+    .nav-menu { display: flex; gap: 32px; list-style: none; align-items: center; }
+    .nav-menu a { text-decoration: none; font-weight: 500; font-size: 15px; }
+    .nav-menu a:hover { color: var(--crust); }
+    .nav-menu .cta { background: var(--crust); color: var(--paper); padding: 10px 20px; border-radius: 999px; }
+    .nav-menu .cta:hover { background: var(--crust-dark); color: var(--paper); }
+    .nav-toggle { display: none; background: none; border: 0; width: 44px; height: 44px; cursor: pointer; }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--brown); margin: 5px auto; transition: transform .3s, opacity .3s; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Hero */
+    .hero { padding: 72px 0 96px; }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+    .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--crust); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .eyebrow::before { content: ''; width: 32px; height: 2px; background: currentColor; }
+    h1 { font-family: 'Fraunces', serif; font-weight: 800; font-size: clamp(44px, 6.4vw, 84px); line-height: .98; letter-spacing: -.035em; }
+    h1 em { font-weight: 400; color: var(--crust); }
+    .lead { font-size: 19px; color: var(--muted); max-width: 470px; margin: 28px 0 36px; }
+    .btns { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 28px; border-radius: 999px; font-weight: 700; text-decoration: none; transition: transform .2s, background .2s; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-fill { background: var(--brown); color: var(--cream); }
+    .btn-line { border: 1.5px solid var(--brown); }
+    .hero-art { position: relative; aspect-ratio: 1; }
+    .hero-art .disc { position: absolute; inset: 6%; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #f1dcae, var(--wheat) 55%, #cf9f4f); }
+    .hero-art svg { position: relative; width: 100%; height: 100%; }
+    .stamp { position: absolute; right: 2%; bottom: 8%; width: 128px; height: 128px; border-radius: 50%; background: var(--crust); color: var(--paper); display: grid; place-content: center; text-align: center; font-family: 'Fraunces', serif; transform: rotate(-12deg); box-shadow: 0 10px 30px rgba(43,29,20,.2); }
+    .stamp b { font-size: 34px; line-height: 1; }
+    .stamp span { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+
+    /* Bandeau défilant */
+    .ticker { background: var(--brown); color: var(--wheat); overflow: hidden; padding: 18px 0; font-family: 'Fraunces', serif; font-style: italic; font-size: 22px; white-space: nowrap; }
+    .ticker div { display: inline-block; animation: tick 30s linear infinite; }
+    .ticker span { margin: 0 28px; }
+    .ticker span::after { content: '✦'; margin-left: 56px; font-style: normal; color: var(--crust); }
+    @keyframes tick { to { transform: translateX(-50%); } }
+
+    /* Sections */
+    section { padding: 104px 0; }
+    .sec-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 56px; flex-wrap: wrap; }
+    h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(34px, 4.4vw, 54px); line-height: 1.05; letter-spacing: -.03em; max-width: 620px; }
+    h2 em { font-weight: 400; color: var(--crust); }
+    .sec-head p { color: var(--muted); max-width: 380px; }
+
+    .breads { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .bread { background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 28px 24px 26px; transition: transform .3s, box-shadow .3s; }
+    .bread:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(43,29,20,.1); }
+    .bread svg { height: 84px; margin-bottom: 22px; }
+    .bread h3 { font-family: 'Fraunces', serif; font-size: 23px; font-weight: 600; margin-bottom: 6px; }
+    .bread p { color: var(--muted); font-size: 15px; margin-bottom: 18px; }
+    .price { font-weight: 700; color: var(--crust); }
+
+    .story { background: var(--paper); border-block: 1px solid var(--line); }
+    .story .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .story p { color: var(--muted); margin-top: 20px; }
+    .story blockquote { font-family: 'Fraunces', serif; font-style: italic; font-size: 24px; line-height: 1.4; border-left: 3px solid var(--crust); padding-left: 24px; margin-top: 32px; color: var(--brown); }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .stat { background: var(--cream); border-radius: 20px; padding: 32px 28px; }
+    .stat b { display: block; font-family: 'Fraunces', serif; font-size: 52px; font-weight: 800; line-height: 1; color: var(--crust); letter-spacing: -.03em; }
+    .stat span { color: var(--muted); font-size: 15px; }
+    .stat:nth-child(2) { background: var(--brown); color: var(--cream); }
+    .stat:nth-child(2) b { color: var(--wheat); }
+    .stat:nth-child(2) span { color: #cdbca8; }
+
+    .visit .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .card { background: var(--paper); border: 1px solid var(--line); border-radius: 24px; padding: 40px; }
+    .card h3 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; margin-bottom: 24px; }
+    .hours { list-style: none; }
+    .hours li { display: flex; justify-content: space-between; padding: 13px 0; border-bottom: 1px dashed var(--line); }
+    .hours li:last-child { border: 0; }
+    .hours .closed { color: var(--muted); font-style: italic; }
+    .addr { font-size: 20px; line-height: 1.5; margin-bottom: 20px; }
+    .addr small { display: block; color: var(--muted); font-size: 15px; margin-top: 8px; }
+    .map { margin-top: 24px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
+
+    footer { background: var(--brown); color: #cdbca8; padding: 56px 0 40px; font-size: 15px; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
+    footer .logo { color: var(--cream); }
+
+    [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s ease; }
+    [data-reveal].in { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .hero .wrap, .story .wrap, .visit .wrap { grid-template-columns: 1fr; }
+      .hero-art { max-width: 420px; margin-inline: auto; }
+      .breads { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 760px) {
+      .nav-toggle { display: block; }
+      .nav-menu { position: fixed; inset: 72px 0 0; background: var(--cream); flex-direction: column; justify-content: center; gap: 28px; font-size: 22px; opacity: 0; visibility: hidden; transform: translateY(-12px); transition: opacity .3s ease, transform .3s ease, visibility .3s; }
+      .nav-menu.open { opacity: 1; visibility: visible; transform: none; }
+      .nav-menu a { font-size: 22px; }
+      section { padding: 72px 0; }
+      .breads, .stats { grid-template-columns: 1fr; }
+      .card { padding: 28px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } [data-reveal] { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+
+<div class="demo">Site de démonstration — entreprise fictive, réalisé par Thomas Balestro · <a href="../../page/sites-internet.html">Retour au portfolio</a></div>
+
+<header>
+  <nav class="nav wrap" aria-label="Navigation principale">
+    <a href="#top" class="logo">Maison <em>Ferrand</em></a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    <ul class="nav-menu" id="menu">
+      <li><a href="#pains">Nos pains</a></li>
+      <li><a href="#maison">La maison</a></li>
+      <li><a href="#venir">Nous trouver</a></li>
+      <li><a href="#venir" class="cta">Commander</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero" style="padding-top:72px">
+    <div class="wrap">
+      <div data-reveal>
+        <div class="eyebrow">Boulangerie · Croix-Rousse, Lyon</div>
+        <h1>Du levain, du temps, <em>et rien d'autre.</em></h1>
+        <p class="lead">Des pains façonnés à la main chaque nuit, avec des farines meulées sur pierre dans le Beaujolais et un levain que l'on nourrit depuis 1987.</p>
+        <div class="btns">
+          <a href="#pains" class="btn btn-fill">Découvrir nos pains →</a>
+          <a href="#venir" class="btn btn-line">Horaires &amp; adresse</a>
+        </div>
+      </div>
+      <div class="hero-art" data-reveal aria-hidden="true">
+        <div class="disc"></div>
+        <svg viewBox="0 0 400 400">
+          <ellipse cx="200" cy="268" rx="150" ry="24" fill="#2b1d14" opacity=".14"/>
+          <path d="M60 230c0-70 66-118 140-118s140 48 140 118c0 30-28 46-140 46S60 260 60 230z" fill="#b5562a"/>
+          <path d="M60 230c0-70 66-118 140-118s140 48 140 118" fill="none" stroke="#8f3f1c" stroke-width="6"/>
+          <path d="M120 170q30-40 52 6M180 156q30-40 52 6M240 170q26-34 46 8" stroke="#f1dcae" stroke-width="10" stroke-linecap="round" fill="none"/>
+          <g fill="#f6efe4" opacity=".75"><circle cx="110" cy="214" r="3"/><circle cx="150" cy="232" r="2.5"/><circle cx="210" cy="222" r="3"/><circle cx="262" cy="238" r="2.5"/><circle cx="300" cy="214" r="3"/></g>
+          <g stroke="#2b1d14" stroke-width="5" stroke-linecap="round" fill="none"><path d="M318 118c-6-22 10-36 4-58"/><path d="M342 128c-6-22 10-36 4-58"/></g>
+          <g fill="#2b1d14"><ellipse cx="318" cy="64" rx="7" ry="11" transform="rotate(-20 318 64)"/><ellipse cx="346" cy="74" rx="7" ry="11" transform="rotate(-20 346 74)"/><ellipse cx="330" cy="92" rx="7" ry="11" transform="rotate(-20 330 92)"/></g>
+        </svg>
+        <div class="stamp"><b>48h</b><span>de fermentation</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div>
+    <span>Levain naturel</span><span>Farines bio du Beaujolais</span><span>Cuisson au feu de bois</span><span>Viennoiseries pur beurre</span>
+    <span>Levain naturel</span><span>Farines bio du Beaujolais</span><span>Cuisson au feu de bois</span><span>Viennoiseries pur beurre</span>
+  </div></div>
+
+  <section id="pains">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <h2>Quatre pains, <em>une seule méthode</em> : la patience.</h2>
+        <p>Notre gamme est courte exprès. Chaque pain repose de 24 à 48 heures avant d'entrer dans le four.</p>
+      </div>
+      <div class="breads">
+        <article class="bread" data-reveal>
+          <svg viewBox="0 0 160 84" aria-hidden="true"><path d="M10 64c0-30 32-50 70-50s70 20 70 50c0 10-14 14-70 14S10 74 10 64z" fill="#b5562a"/><path d="M42 40q14-14 22 4M74 34q14-14 22 4M106 40q12-12 20 4" stroke="#f1dcae" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+          <h3>La Miche</h3>
+          <p>Grand pain de campagne, mie alvéolée, croûte épaisse. Se garde une semaine.</p>
+          <span class="price">7,80 € le kilo</span>
+        </article>
+        <article class="bread" data-reveal>
+          <svg viewBox="0 0 160 84" aria-hidden="true"><rect x="6" y="34" width="148" height="28" rx="14" fill="#cf8a45"/><path d="M28 42l16 10M58 40l16 12M88 40l16 12M118 42l14 10" stroke="#f1dcae" stroke-width="5" stroke-linecap="round"/></svg>
+          <h3>La Tradition</h3>
+          <p>Baguette au levain, longue fermentation à froid, finale légèrement acidulée.</p>
+          <span class="price">1,40 € pièce</span>
+        </article>
+        <article class="bread" data-reveal>
+          <svg viewBox="0 0 160 84" aria-hidden="true"><path d="M30 70V34c0-14 22-22 50-22s50 8 50 22v36z" fill="#6b3a22"/><g fill="#e3c27a"><circle cx="60" cy="40" r="4"/><circle cx="84" cy="30" r="4"/><circle cx="104" cy="46" r="4"/><circle cx="72" cy="56" r="4"/><circle cx="98" cy="62" r="4"/></g></svg>
+          <h3>Le Seigle-Noix</h3>
+          <p>70 % de seigle, noix de Grenoble torréfiées. Parfait avec un fromage affiné.</p>
+          <span class="price">9,20 € le kilo</span>
+        </article>
+        <article class="bread" data-reveal>
+          <svg viewBox="0 0 160 84" aria-hidden="true"><path d="M20 66c10-34 30-52 60-52s50 18 60 52z" fill="#e0a64f"/><path d="M40 62c8-20 22-34 40-34s32 14 40 34" fill="none" stroke="#b5562a" stroke-width="5"/><path d="M60 58c6-12 12-18 20-18s14 6 20 18" fill="none" stroke="#b5562a" stroke-width="5"/></svg>
+          <h3>Le Croissant</h3>
+          <p>Beurre AOP Charentes-Poitou, feuilletage sur trois jours, 81 couches.</p>
+          <span class="price">1,60 € pièce</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="story" id="maison">
+    <div class="wrap">
+      <div data-reveal>
+        <div class="eyebrow">Depuis 1987</div>
+        <h2>Trois générations <em>au fournil</em>.</h2>
+        <p>Tout commence avec Jeanne Ferrand, qui ouvre la boutique au pied des pentes de la Croix-Rousse. Aujourd'hui, sa petite-fille Clémence perpétue les mêmes gestes, avec le même levain.</p>
+        <p>Nous travaillons uniquement avec trois moulins situés à moins de 80 km, et nous cuisons dans un four à sole chauffé au bois de hêtre.</p>
+        <blockquote>« Un bon pain, c'est surtout du temps qu'on refuse de raccourcir. »</blockquote>
+      </div>
+      <div class="stats" data-reveal>
+        <div class="stat"><b>1987</b><span>naissance du levain</span></div>
+        <div class="stat"><b>48h</b><span>de fermentation lente</span></div>
+        <div class="stat"><b>3</b><span>moulins partenaires</span></div>
+        <div class="stat"><b>0</b><span>additif ni améliorant</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="visit" id="venir">
+    <div class="wrap">
+      <div class="card" data-reveal>
+        <h3>Horaires</h3>
+        <ul class="hours">
+          <li><span>Mardi — Vendredi</span><span>7h00 – 19h30</span></li>
+          <li><span>Samedi</span><span>7h00 – 19h00</span></li>
+          <li><span>Dimanche</span><span>7h30 – 13h00</span></li>
+          <li><span>Lundi</span><span class="closed">Fermé, le levain se repose</span></li>
+        </ul>
+      </div>
+      <div class="card" data-reveal>
+        <h3>Nous trouver</h3>
+        <p class="addr">8 montée du Fournil<br />69004 Lyon<small>Métro C, arrêt Croix-Rousse · commandes la veille avant 18h</small></p>
+        <div class="btns"><a class="btn btn-fill" href="tel:+33199001234">01 99 00 12 34</a></div>
+        <div class="map" aria-hidden="true">
+          <svg viewBox="0 0 400 150"><rect width="400" height="150" fill="#efe5d6"/><path d="M0 110L140 70L260 96L400 40" stroke="#fbf7f0" stroke-width="16" fill="none"/><path d="M90 0L130 150M300 0L250 150" stroke="#fbf7f0" stroke-width="10"/><path d="M0 30Q120 50 400 10" stroke="#c9d8e0" stroke-width="18" fill="none" opacity=".7"/><circle cx="200" cy="84" r="12" fill="#b5562a"/><circle cx="200" cy="84" r="4" fill="#fbf7f0"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="#top" class="logo">Maison <em style="color:var(--wheat)">Ferrand</em></a>
+    <span>© <span data-year></span> Maison Ferrand — entreprise fictive · Démo par Thomas Balestro</span>
+  </div>
+</footer>
+
+<script src="../assets/demo.js" defer></script>
+</body>
+</html>

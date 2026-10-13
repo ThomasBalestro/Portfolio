@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="robots" content="noindex, follow" />
+  <title>Cadenas — Générateur de mots de passe (démo)</title>
+  <meta name="description" content="Démo réalisée par Thomas Balestro : générateur de mots de passe et de phrases de passe, 100 % local, aléa cryptographique." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Cpath d='M22 28v-6a10 10 0 0 1 20 0v6' stroke='%2322d3ee' stroke-width='5' fill='none'/%3E%3Crect x='16' y='28' width='32' height='24' rx='5' fill='%2322d3ee'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --desk: #070b14; --win: #0f1626; --panel: #141d31; --line: #22304d; --ink: #e6edf7; --soft: #8796b0; --cyan: #22d3ee; --red: #f43f5e; --amber: #f59e0b; --green: #22c55e; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--desk); color: var(--ink); font-family: 'Inter Tight', sans-serif; font-size: 14px; line-height: 1.5; min-height: 100vh;
+      background-image: radial-gradient(circle at 20% 10%, rgba(34,211,238,.10), transparent 40%), radial-gradient(circle at 85% 90%, rgba(99,102,241,.12), transparent 45%); }
+    .demo { background: #0b1220; border-bottom: 1px solid var(--line); color: var(--soft); font-size: 12.5px; text-align: center; padding: 7px 16px; }
+    .demo a { color: var(--cyan); }
+    .stage { display: grid; place-items: center; padding: 40px 16px 56px; }
+    .window { width: min(760px, 100%); background: var(--win); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 30px 80px rgba(0,0,0,.55); overflow: hidden; }
+    .titlebar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #0b1220; border-bottom: 1px solid var(--line); user-select: none; }
+    .lights { display: flex; gap: 7px; } .lights i { width: 12px; height: 12px; border-radius: 50%; background: #2a3550; }
+    .lights i:nth-child(1) { background: #f43f5e; } .lights i:nth-child(2) { background: #f59e0b; } .lights i:nth-child(3) { background: #22c55e; }
+    .titlebar b { flex: 1; text-align: center; font-weight: 600; color: var(--soft); font-size: 13px; margin-right: 50px; }
+    .tabs { display: flex; gap: 4px; padding: 12px 16px 0; border-bottom: 1px solid var(--line); }
+    .tabs button { background: none; border: 0; color: var(--soft); font: inherit; font-weight: 600; padding: 10px 14px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    .tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--cyan); }
+    .pane { padding: 24px; display: none; }
+    .pane.active { display: block; }
+    .output { display: flex; gap: 10px; align-items: stretch; }
+    .pwd { flex: 1; min-width: 0; background: #0a101d; border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; font-family: 'JetBrains Mono', monospace; font-size: 20px; letter-spacing: .02em; word-break: break-all; min-height: 64px; display: flex; align-items: center; }
+    .pwd .d { color: var(--cyan); } .pwd .s { color: #f0abfc; }
+    .icon-btn { width: 56px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; font-size: 18px; display: grid; place-content: center; transition: border-color .2s, background .2s; }
+    .icon-btn:hover { border-color: var(--cyan); }
+    .icon-btn.ok { background: rgba(34,197,94,.15); border-color: var(--green); }
+    .meter { margin: 16px 0 6px; height: 8px; border-radius: 4px; background: #1b2540; overflow: hidden; }
+    .meter span { display: block; height: 100%; width: 0; border-radius: 4px; transition: width .35s ease, background .35s; }
+    .verdict { display: flex; justify-content: space-between; font-size: 13px; color: var(--soft); gap: 12px; flex-wrap: wrap; }
+    .verdict b { color: var(--ink); }
+    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+    .ctl { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+    .ctl.wide { grid-column: 1 / -1; }
+    .ctl label.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; padding: 6px 0; }
+    .ctl h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--soft); margin-bottom: 10px; font-weight: 600; }
+    input[type="range"] { width: 100%; accent-color: var(--cyan); }
+    .len { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 600; color: var(--cyan); }
+    .switch { appearance: none; width: 40px; height: 22px; border-radius: 999px; background: #2a3550; position: relative; cursor: pointer; transition: background .2s; flex: none; }
+    .switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .2s; }
+    .switch:checked { background: var(--cyan); }
+    .switch:checked::after { transform: translateX(18px); }
+    .switch:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+    select, .test-input { width: 100%; background: #0a101d; border: 1px solid var(--line); color: var(--ink); font: inherit; padding: 10px 12px; border-radius: 8px; }
+    .test-input { font-family: 'JetBrains Mono', monospace; font-size: 17px; padding: 14px 16px; }
+    .gen { margin-top: 18px; width: 100%; padding: 14px; border: 0; border-radius: 10px; background: var(--cyan); color: #04131a; font: inherit; font-weight: 700; font-size: 15px; cursor: pointer; }
+    .gen:hover { filter: brightness(1.08); }
+    .checks { list-style: none; display: grid; gap: 8px; margin-top: 18px; }
+    .checks li { display: flex; gap: 10px; align-items: center; color: var(--soft); }
+    .checks li::before { content: '○'; width: 18px; text-align: center; }
+    .checks li.ok { color: var(--ink); } .checks li.ok::before { content: '●'; color: var(--green); }
+    .checks li.bad { color: var(--ink); } .checks li.bad::before { content: '✕'; color: var(--red); }
+    .foot { padding: 14px 24px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--soft); display: flex; gap: 8px; align-items: center; }
+    .foot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    @media (max-width: 620px) { .controls { grid-template-columns: 1fr; } .pwd { font-size: 16px; } .pane { padding: 18px; } .titlebar b { margin-right: 0; } }
+  </style>
+</head>
+<body>
+<div class="demo">Démo interactive — rien ne quitte votre navigateur · Thomas Balestro · <a href="../../page/applications.html">Retour au portfolio</a></div>
+<div class="stage">
+  <div class="window">
+    <div class="titlebar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><b>Cadenas — Générateur sécurisé</b></div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="true" aria-controls="p-gen" id="t-gen">Mot de passe</button>
+      <button role="tab" aria-selected="false" aria-controls="p-phrase" id="t-phrase">Phrase de passe</button>
+      <button role="tab" aria-selected="false" aria-controls="p-test" id="t-test">Tester le mien</button>
+    </div>
+
+    <div class="pane active" id="p-gen" role="tabpanel" aria-labelledby="t-gen">
+      <div class="output"><div class="pwd" id="pwd" aria-live="polite"></div><button class="icon-btn" id="copy" aria-label="Copier">⧉</button><button class="icon-btn" id="regen" aria-label="Régénérer">↻</button></div>
+      <div class="meter"><span id="bar"></span></div>
+      <div class="verdict"><span id="label"></span><span id="bits"></span></div>
+      <div class="controls">
+        <div class="ctl wide"><h3>Longueur</h3><div style="display:flex;gap:16px;align-items:center"><input type="range" id="length" min="8" max="64" value="20" aria-label="Longueur" /><span class="len" id="len-out">20</span></div></div>
+        <div class="ctl"><h3>Caractères</h3>
+          <label class="row">Majuscules A-Z <input class="switch" type="checkbox" id="upper" checked /></label>
+          <label class="row">Minuscules a-z <input class="switch" type="checkbox" id="lower" checked /></label>
+          <label class="row">Chiffres 0-9 <input class="switch" type="checkbox" id="digits" checked /></label>
+          <label class="row">Symboles !#$… <input class="switch" type="checkbox" id="symbols" checked /></label>
+        </div>
+        <div class="ctl"><h3>Options</h3>
+          <label class="row">Exclure les ambigus (0 O l 1 I) <input class="switch" type="checkbox" id="ambig" /></label>
+          <label class="row">Au moins un de chaque type <input class="switch" type="checkbox" id="each" checked /></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="pane" id="p-phrase" role="tabpanel" aria-labelledby="t-phrase">
+      <div class="output"><div class="pwd" id="phrase" aria-live="polite"></div><button class="icon-btn" id="copy2" aria-label="Copier">⧉</button></div>
+      <div class="meter"><span id="bar2"></span></div>
+      <div class="verdict"><span id="label2"></span><span id="bits2"></span></div>
+      <div class="controls">
+        <div class="ctl"><h3>Nombre de mots</h3><div style="display:flex;gap:16px;align-items:center"><input type="range" id="words" min="4" max="12" value="7" aria-label="Nombre de mots" /><span class="len" id="words-out">7</span></div></div>
+        <div class="ctl"><h3>Séparateur</h3><select id="sep" aria-label="Séparateur"><option value="-">tiret (-)</option><option value=".">point (.)</option><option value=" ">espace</option><option value="_">tiret bas (_)</option></select>
+          <label class="row" style="margin-top:8px">Ajouter un nombre <input class="switch" type="checkbox" id="num" checked /></label></div>
+      </div>
+      <button class="gen" id="gen-phrase">Générer une phrase</button>
+    </div>
+
+    <div class="pane" id="p-test" role="tabpanel" aria-labelledby="t-test">
+      <input class="test-input" id="test" type="password" placeholder="Tapez un mot de passe à évaluer" autocomplete="off" spellcheck="false" aria-label="Mot de passe à tester" />
+      <label class="row" style="display:flex;gap:10px;align-items:center;margin-top:10px;color:var(--soft);cursor:pointer"><input class="switch" type="checkbox" id="show" /> Afficher</label>
+      <div class="meter"><span id="bar3"></span></div>
+      <div class="verdict"><span id="label3">En attente…</span><span id="bits3"></span></div>
+      <ul class="checks" id="checks"></ul>
+    </div>
+
+    <div class="foot">Aléa cryptographique (crypto.getRandomValues) · aucune requête réseau, aucun stockage</div>
+  </div>
+</div>
+<script src="app.js" defer></script>
+</body>
+</html>

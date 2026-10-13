@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#0e3b2e" />
+  <title>Budgie — App mobile de budget (démo)</title>
+  <meta name="description" content="Démo réalisée par Thomas Balestro : application mobile de suivi de budget, données stockées localement." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230e3b2e'/%3E%3Ccircle cx='32' cy='34' r='14' fill='%23d4f26a'/%3E%3Ccircle cx='37' cy='30' r='3' fill='%230e3b2e'/%3E%3Cpath d='M46 32l8 3-8 3z' fill='%23ff8a5b'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --deep: #0e3b2e; --deep-2: #145240; --lime: #d4f26a; --cream: #f7f5ee; --card: #ffffff; --ink: #14201b; --soft: #6c7a73; --line: #e7e5dc; --coral: #ff8a5b; --c-food: #ff8a5b; --c-home: #5b8cff; --c-fun: #c084fc; --c-move: #22c3a6; --c-other: #f5b83d; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Outfit', sans-serif; color: var(--ink); font-size: 15px; line-height: 1.45; background: #dfe7e1; min-height: 100vh; }
+    .demo { background: var(--deep); color: #b9d3c8; font-size: 12.5px; text-align: center; padding: 7px 16px; }
+    .demo a { color: var(--lime); }
+    .scene { display: grid; grid-template-columns: 1fr auto; gap: 64px; align-items: center; justify-content: center; padding: 40px 32px; max-width: 1080px; margin: 0 auto; min-height: calc(100vh - 32px); }
+    .pitch h1 { font-size: clamp(38px, 5vw, 60px); font-weight: 800; line-height: 1; letter-spacing: -.03em; color: var(--deep); }
+    .pitch h1 span { background: var(--lime); padding: 0 .1em; border-radius: 8px; }
+    .pitch p { color: #3f514a; font-size: 17px; margin: 18px 0 24px; max-width: 420px; }
+    .pitch ul { list-style: none; display: grid; gap: 10px; color: #3f514a; }
+    .pitch li::before { content: '✓'; color: var(--deep); font-weight: 800; margin-right: 10px; }
+    .phone { width: 380px; height: 780px; background: #0b0f0d; border-radius: 54px; padding: 12px; box-shadow: 0 40px 80px rgba(14,59,46,.35), inset 0 0 0 2px #2a2f2c; position: relative; }
+    .phone::before { content: ''; position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 110px; height: 30px; background: #0b0f0d; border-radius: 20px; z-index: 5; }
+    .screen { width: 100%; height: 100%; border-radius: 42px; background: var(--cream); overflow: hidden; display: flex; flex-direction: column; position: relative; }
+    .head { background: var(--deep); color: #fff; padding: 58px 22px 26px; border-radius: 0 0 30px 30px; }
+    .hello { display: flex; justify-content: space-between; align-items: center; color: #b9d3c8; font-size: 14px; }
+    .month { display: flex; align-items: center; gap: 8px; }
+    .month button { background: var(--deep-2); color: #fff; border: 0; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font: inherit; }
+    .balance-label { margin-top: 18px; color: #b9d3c8; font-size: 13px; }
+    .balance { font-size: 40px; font-weight: 800; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+    .io { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+    .io div { background: var(--deep-2); border-radius: 16px; padding: 10px 14px; }
+    .io small { color: #b9d3c8; display: block; font-size: 12px; }
+    .io b { font-size: 17px; font-variant-numeric: tabular-nums; }
+    .io .in b { color: var(--lime); } .io .out b { color: #ffb796; }
+    .body { flex: 1; overflow-y: auto; padding: 18px 18px 100px; scrollbar-width: none; }
+    .body::-webkit-scrollbar { display: none; }
+    .card { background: var(--card); border-radius: 22px; padding: 16px; margin-bottom: 14px; }
+    .card h2 { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; justify-content: space-between; }
+    .card h2 small { color: var(--soft); font-weight: 500; }
+    .donut-row { display: flex; gap: 16px; align-items: center; }
+    #donut { width: 116px; height: 116px; flex: none; }
+    .cats { list-style: none; flex: 1; display: grid; gap: 6px; font-size: 13.5px; }
+    .cats li { display: grid; grid-template-columns: 10px 1fr auto; gap: 8px; align-items: center; }
+    .cats i { width: 10px; height: 10px; border-radius: 3px; }
+    .cats b { font-variant-numeric: tabular-nums; }
+    .tx { list-style: none; }
+    .tx li { display: grid; grid-template-columns: 40px 1fr auto auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .tx li:last-child { border: 0; }
+    .ico { width: 40px; height: 40px; border-radius: 13px; display: grid; place-content: center; font-size: 18px; }
+    .tx p { font-weight: 600; line-height: 1.2; word-break: break-word; }
+    .tx small { color: var(--soft); font-size: 12.5px; }
+    .amt { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .amt.plus { color: #1a8a5c; }
+    .del { background: none; border: 0; color: #b5bfb9; cursor: pointer; font-size: 15px; width: 26px; height: 26px; border-radius: 8px; }
+    .del:hover { background: var(--cream); color: var(--coral); }
+    .empty { color: var(--soft); text-align: center; padding: 20px 0; font-size: 14px; }
+    .fab { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); background: var(--deep); color: var(--lime); border: 0; height: 56px; padding: 0 26px; border-radius: 999px; font: inherit; font-weight: 700; font-size: 16px; display: flex; gap: 10px; align-items: center; box-shadow: 0 12px 30px rgba(14,59,46,.35); cursor: pointer; z-index: 4; }
+    .sheet-bg { position: absolute; inset: 0; background: rgba(11,15,13,.45); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 6; }
+    .sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--cream); border-radius: 28px 28px 0 0; padding: 14px 20px 26px; transform: translateY(105%); transition: transform .3s cubic-bezier(.2,.8,.2,1); z-index: 7; }
+    .open .sheet-bg { opacity: 1; pointer-events: auto; }
+    .open .sheet { transform: none; }
+    .grab { width: 44px; height: 5px; border-radius: 3px; background: #cfd4cf; margin: 0 auto 14px; }
+    .sheet h3 { font-size: 18px; margin-bottom: 14px; }
+    .kind { display: grid; grid-template-columns: 1fr 1fr; background: #ebe8de; border-radius: 14px; padding: 4px; margin-bottom: 12px; }
+    .kind button { border: 0; background: none; padding: 9px; border-radius: 10px; font: inherit; font-weight: 600; cursor: pointer; color: var(--soft); }
+    .kind button[aria-pressed="true"] { background: #fff; color: var(--ink); }
+    .field { width: 100%; background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 13px 14px; font: inherit; margin-bottom: 10px; color: var(--ink); }
+    .field:focus { outline: none; border-color: var(--deep); }
+    .big { font-size: 26px; font-weight: 700; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .chips button { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 7px 12px; font: inherit; font-size: 13.5px; cursor: pointer; }
+    .chips button[aria-pressed="true"] { border-color: var(--deep); background: var(--deep); color: #fff; }
+    .save { width: 100%; background: var(--lime); color: var(--deep); border: 0; border-radius: 16px; padding: 15px; font: inherit; font-weight: 800; font-size: 16px; cursor: pointer; }
+    .err { color: #c2410c; font-size: 13px; min-height: 18px; margin: -4px 0 6px; }
+    @media (max-width: 860px) {
+      body { background: var(--cream); }
+      .scene { display: block; padding: 0; min-height: 0; }
+      .pitch { display: none; }
+      .phone { width: 100%; height: calc(100dvh - 32px); border-radius: 0; padding: 0; box-shadow: none; background: none; }
+      .phone::before { display: none; }
+      .screen { border-radius: 0; }
+      .head { padding-top: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+<div class="demo">Démo interactive — vos données restent sur cet appareil · Thomas Balestro · <a href="../../page/applications.html">Retour au portfolio</a></div>
+<div class="scene">
+  <div class="pitch">
+    <h1>Votre budget,<br/><span>sans prise de tête.</span></h1>
+    <p>Budgie est un prototype d'application mobile : on note une dépense en trois touches et on voit tout de suite où part l'argent du mois.</p>
+    <ul><li>Ajout rapide en bas d'écran</li><li>Répartition par catégorie</li><li>Navigation mois par mois</li><li>100 % hors ligne, rien n'est envoyé</li></ul>
+  </div>
+  <div class="phone">
+    <div class="screen" id="screen">
+      <div class="head">
+        <div class="hello"><span>Bonjour 👋</span><div class="month"><button id="prev" aria-label="Mois précédent">‹</button><span id="month"></span><button id="next" aria-label="Mois suivant">›</button></div></div>
+        <div class="balance-label">Solde du mois</div>
+        <div class="balance" id="balance">0 €</div>
+        <div class="io"><div class="in"><small>Revenus</small><b id="in">0 €</b></div><div class="out"><small>Dépenses</small><b id="out">0 €</b></div></div>
+      </div>
+      <div class="body">
+        <div class="card">
+          <h2>Dépenses par catégorie <small id="share"></small></h2>
+          <div class="donut-row"><svg id="donut" viewBox="0 0 42 42" role="img" aria-label="Répartition des dépenses"></svg><ul class="cats" id="cats"></ul></div>
+        </div>
+        <div class="card">
+          <h2>Opérations <small id="count"></small></h2>
+          <ul class="tx" id="tx"></ul>
+        </div>
+      </div>
+      <button class="fab" id="fab"><span style="font-size:22px">＋</span> Ajouter</button>
+      <div class="sheet-bg" id="sheet-bg"></div>
+      <form class="sheet" id="sheet" autocomplete="off" aria-label="Nouvelle opération">
+        <div class="grab"></div>
+        <h3>Nouvelle opération</h3>
+        <div class="kind"><button type="button" data-kind="out" aria-pressed="true">Dépense</button><button type="button" data-kind="in" aria-pressed="false">Revenu</button></div>
+        <input class="field big" id="amount" inputmode="decimal" placeholder="0,00 €" aria-label="Montant" />
+        <input class="field" id="label" maxlength="40" placeholder="Libellé (ex : courses)" aria-label="Libellé" />
+        <div class="chips" id="chips"></div>
+        <div class="err" id="err" role="alert"></div>
+        <button class="save" type="submit">Enregistrer</button>
+      </form>
+    </div>
+  </div>
+</div>
+<script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="robots" content="noindex, follow" />
+  <title>Pulse — Tableau de bord analytics (démo)</title>
+  <meta name="description" content="Démo interactive réalisée par Thomas Balestro : tableau de bord analytics avec graphiques SVG faits main." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234f46e5'/%3E%3Cpath d='M10 36h12l6-14 8 24 6-12h12' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg: #f5f6fa; --card: #fff; --ink: #14151f; --soft: #6b6f82; --line: #e6e8f0; --brand: #4f46e5; --brand-2: #818cf8; --up: #059669; --down: #dc2626; --c1: #4f46e5; --c2: #06b6d4; --c3: #f59e0b; --c4: #ec4899; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--ink); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; line-height: 1.5; }
+    .demo { background: var(--ink); color: #c7c9d9; font-size: 12.5px; text-align: center; padding: 7px 16px; }
+    .demo a { color: var(--brand-2); }
+    .app { display: grid; grid-template-columns: 232px 1fr; min-height: calc(100vh - 32px); }
+    aside { background: var(--card); border-right: 1px solid var(--line); padding: 24px 16px; display: flex; flex-direction: column; gap: 4px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 19px; padding: 0 10px 22px; }
+    .brand i { width: 30px; height: 30px; border-radius: 9px; background: var(--brand); display: grid; place-content: center; color: #fff; font-style: normal; font-size: 15px; }
+    aside a { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; color: var(--soft); text-decoration: none; font-weight: 600; }
+    aside a.active { background: #eef0ff; color: var(--brand); }
+    aside a span { width: 18px; text-align: center; }
+    .side-note { margin-top: auto; background: var(--bg); border-radius: 12px; padding: 14px; font-size: 12.5px; color: var(--soft); }
+    main { padding: 28px 32px 48px; min-width: 0; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+    h1 { font-size: 24px; font-weight: 800; letter-spacing: -.02em; }
+    .sub { color: var(--soft); }
+    .seg { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 3px; }
+    .seg button { border: 0; background: none; padding: 7px 14px; border-radius: 8px; font: inherit; font-weight: 600; color: var(--soft); cursor: pointer; }
+    .seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+    .kpi .label { color: var(--soft); font-weight: 600; font-size: 13px; display: flex; justify-content: space-between; }
+    .kpi .value { font-size: 28px; font-weight: 800; letter-spacing: -.02em; margin: 6px 0 2px; font-variant-numeric: tabular-nums; }
+    .delta { white-space: nowrap; font-weight: 700; font-size: 12.5px; padding: 2px 8px; border-radius: 999px; }
+    .delta.up { color: var(--up); background: #ecfdf5; } .delta.down { color: var(--down); background: #fef2f2; }
+    .spark { width: 100%; height: 36px; margin-top: 10px; }
+    .grid2 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .card h2 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .card .hint { color: var(--soft); font-size: 12.5px; margin-bottom: 16px; }
+    .chart-wrap { position: relative; }
+    #line { width: 100%; height: 260px; display: block; }
+    .tip { position: absolute; pointer-events: none; background: var(--ink); color: #fff; padding: 8px 12px; border-radius: 10px; font-size: 12.5px; white-space: nowrap; transform: translate(-50%, -115%); opacity: 0; transition: opacity .15s; font-family: 'IBM Plex Mono', monospace; }
+    .tip.show { opacity: 1; }
+    .legend { display: flex; gap: 16px; font-size: 12.5px; color: var(--soft); margin-top: 10px; }
+    .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; }
+    .donut-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    #donut { width: 180px; height: 180px; }
+    .channels { width: 100%; list-style: none; display: grid; gap: 8px; }
+    .channels li { display: grid; grid-template-columns: 12px 1fr auto; gap: 10px; align-items: center; font-weight: 600; }
+    .channels i { width: 10px; height: 10px; border-radius: 3px; }
+    .channels b { font-family: 'IBM Plex Mono', monospace; font-weight: 500; color: var(--soft); }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--soft); padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    th button { all: unset; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+    th button:focus-visible { outline: 2px solid var(--brand); border-radius: 4px; }
+    td { padding: 12px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+    td.num, th.num { text-align: right; }
+    th.num button { justify-content: flex-end; }
+    tr:last-child td { border: 0; }
+    .bar { height: 6px; border-radius: 3px; background: #eef0ff; overflow: hidden; min-width: 80px; }
+    .bar span { display: block; height: 100%; background: var(--brand); border-radius: 3px; }
+    .path { font-family: 'IBM Plex Mono', monospace; font-size: 13px; }
+    .table-scroll { overflow-x: auto; }
+    @media (max-width: 1080px) { .kpis { grid-template-columns: 1fr 1fr; } .grid2 { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) { .app { grid-template-columns: 1fr; } aside { display: none; } main { padding: 20px 16px 40px; } .kpis { grid-template-columns: 1fr 1fr; gap: 10px; } .kpi .value { font-size: 22px; } .kpi .label { flex-wrap: wrap; gap: 4px; } }
+  </style>
+</head>
+<body>
+<div class="demo">Démo interactive — données simulées · Thomas Balestro · <a href="../../page/projets-web.html">Retour au portfolio</a></div>
+<div class="app">
+  <aside>
+    <div class="brand"><i>⌁</i>Pulse</div>
+    <a href="#" class="active"><span>▦</span>Vue d'ensemble</a>
+    <a href="#"><span>◔</span>Audience</a>
+    <a href="#"><span>⇄</span>Acquisition</a>
+    <a href="#"><span>◎</span>Conversions</a>
+    <div class="side-note">Les chiffres sont générés aléatoirement à chaque période : c'est une démo, pas un vrai site.</div>
+  </aside>
+  <main>
+    <div class="top">
+      <div><h1>Vue d'ensemble</h1><div class="sub" id="range-label">7 derniers jours</div></div>
+      <div class="seg" role="group" aria-label="Période">
+        <button data-days="7" aria-pressed="true">7 j</button>
+        <button data-days="30" aria-pressed="false">30 j</button>
+        <button data-days="90" aria-pressed="false">90 j</button>
+      </div>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="grid2">
+      <div class="card">
+        <h2>Visiteurs et sessions</h2>
+        <div class="hint">Survolez la courbe pour le détail jour par jour.</div>
+        <div class="chart-wrap"><svg id="line" role="img" aria-label="Courbe des visiteurs"></svg><div class="tip" id="tip"></div></div>
+        <div class="legend"><span><i style="background:var(--c1)"></i>Visiteurs</span><span><i style="background:var(--c2)"></i>Sessions</span></div>
+      </div>
+      <div class="card donut-wrap">
+        <div style="align-self:stretch"><h2>Sources de trafic</h2><div class="hint">Répartition des visites</div></div>
+        <svg id="donut" viewBox="0 0 42 42" role="img" aria-label="Répartition des sources"></svg>
+        <ul class="channels" id="channels"></ul>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Pages les plus vues</h2>
+      <div class="hint">Cliquez sur un en-tête pour trier.</div>
+      <div class="table-scroll"><table>
+        <thead><tr>
+          <th><button data-sort="path">Page ↕</button></th>
+          <th class="num"><button data-sort="views">Vues ↕</button></th>
+          <th class="num"><button data-sort="time">Temps moyen ↕</button></th>
+          <th class="num"><button data-sort="bounce">Rebond ↕</button></th>
+          <th>Part</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+    </div>
+  </main>
+</div>
+<script src="app.js" defer></script>
+</body>
+</html>

@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>Sites internet — Thomas Balestro</title>
-  <meta name="description" content="Sites vitrine, landing pages et sites institutionnels réalisés par Thomas Balestro, développeur web près de Lyon." />
+  <title>Sites vitrines — Thomas Balestro, développeur web à Lyon</title>
+  <meta name="description" content="Sites vitrines réalisés par Thomas Balestro, développeur web près de Lyon : boulangerie, architecte d'intérieur, salle d'escalade et bar à ramen, quatre styles différents." />
   <meta name="author" content="Thomas Balestro" />
-  <meta name="robots" content="noindex, follow" />
+  <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://thomasbalestro.github.io/Portfolio/page/sites-internet.html" />
   <meta name="theme-color" content="#04040a" />
   <link rel="icon" href="../media/favicon.svg" type="image/svg+xml" />
@@ -17,8 +17,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="Thomas Balestro — Portfolio" />
-  <meta property="og:title" content="Sites internet — Thomas Balestro" />
-  <meta property="og:description" content="Sites vitrine, landing pages et sites institutionnels réalisés par Thomas Balestro, développeur web près de Lyon." />
+  <meta property="og:title" content="Sites vitrines — Thomas Balestro, développeur web à Lyon" />
+  <meta property="og:description" content="Sites vitrines réalisés par Thomas Balestro, développeur web près de Lyon : boulangerie, architecte d'intérieur, salle d'escalade et bar à ramen, quatre styles différents." />
   <meta property="og:url" content="https://thomasbalestro.github.io/Portfolio/page/sites-internet.html" />
   <meta property="og:image" content="https://thomasbalestro.github.io/Portfolio/media/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -205,8 +205,8 @@
   <div class="page-category">// Catégorie 01</div>
   <h1 class="page-title">Sites <span>Internet</span></h1>
   <p class="page-desc">
-    Tous mes projets de sites vitrine, landing pages et sites institutionnels.
-    Du design soigné à l'optimisation SEO, chaque site est conçu pour convertir et marquer les esprits.
+    Quatre sites vitrines, quatre identités : du chaleureux au néo-brutaliste.
+    Responsives, accessibles et sécurisés, tous codés à la main sans framework.
   </p>
   <div class="page-count">
     <span id="project-count">0</span> projet(s) référencé(s)
@@ -218,59 +218,102 @@
 
   <div class="filters">
     <button class="filter-btn active" data-filter="all">Tous</button>
-    <button class="filter-btn" data-filter="vitrine">Vitrine</button>
-    <button class="filter-btn" data-filter="landing">Landing Page</button>
-    <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
-    <button class="filter-btn" data-filter="institutionnel">Institutionnel</button>
+    <button class="filter-btn" data-filter="commerce">Commerce &amp; artisanat</button>
+    <button class="filter-btn" data-filter="restauration">Restauration</button>
+    <button class="filter-btn" data-filter="services">Services</button>
+    <button class="filter-btn" data-filter="sport">Sport &amp; loisirs</button>
   </div>
+
+  <p class="demo-note">Ces sites présentent des <strong>entreprises fictives</strong> : ce sont des démonstrations de style et de savoir-faire, pas des réalisations clients.</p>
 
   <div class="projects-grid" id="projects-grid">
 
-    <!-- ══ AJOUTE TES PROJETS ICI ══
-         Copie un bloc .project-card et remplis :
-         - data-tags : catégorie(s) séparées par des espaces
-         - project-number, project-status, project-title
-         - project-desc, tech-tag(s), project-link(s)
-    -->
+    <article class="project-card reveal" id="maison-ferrand" data-tags="commerce" data-href="../sites/maison-ferrand/index.html" data-target="_blank">
+        <span class="project-number">SITE_001</span>
+        <div class="project-status status-demo"><span>◆</span> Démo — entreprise fictive</div>
+        <div class="site-swatch" aria-hidden="true"><i style="background:#f6efe4"></i><i style="background:#b5562a"></i><i style="background:#e3c27a"></i><i style="background:#2b1d14"></i></div>
+        <h3 class="project-title">Maison Ferrand</h3>
+        <p class="project-desc">Boulangerie au levain à la Croix-Rousse. Direction éditoriale chaleureuse : serif expressive, crème et terre cuite, illustrations SVG faites main.</p>
+        <ul class="project-features">
+          <li>Bandeau défilant, cartes produits et chiffres clés</li>
+          <li>Horaires et plan d'accès illustré</li>
+          <li>Menu mobile, animations au scroll</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+          <span class="tech-tag">SVG</span>
+          <span class="tech-tag">JavaScript</span>
+        </div>
+        <div class="project-footer">
+          <a href="../sites/maison-ferrand/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Voir le site →</a>
+        </div>
+    </article>
 
-    <!-- Exemple de projet -->
-    <div class="project-card reveal" data-tags="vitrine">
-      <span class="project-number">SITE_001</span>
-      <div class="project-status status-done"><span>✓</span> Terminé</div>
-      <h3 class="project-title">Nom du site</h3>
-      <p class="project-desc">
-        Décrivez le site : secteur du client, objectifs, résultats (trafic, conversions…).
-        Chiffres et métriques bienvenus.
-      </p>
-      <div class="project-tech">
-        <span class="tech-tag">HTML</span>
-        <span class="tech-tag">CSS</span>
-        <span class="tech-tag">JS</span>
-      </div>
-      <div class="project-footer">
-        <a href="#" class="project-link">Voir le site →</a>
-        <a href="#" class="project-link">GitHub →</a>
-      </div>
-    </div>
+    <article class="project-card reveal" id="atelier-volta" data-tags="services" data-href="../sites/atelier-volta/index.html" data-target="_blank">
+        <span class="project-number">SITE_002</span>
+        <div class="project-status status-demo"><span>◆</span> Démo — entreprise fictive</div>
+        <div class="site-swatch" aria-hidden="true"><i style="background:#0f0e0c"></i><i style="background:#b08d57"></i><i style="background:#ece6da"></i><i style="background:#8a8378"></i></div>
+        <h3 class="project-title">Atelier Volta</h3>
+        <p class="project-desc">Studio d'architecture intérieure. Luxe sombre et bronze, grandes capitales serif, plan d'architecte qui se dessine à l'ouverture.</p>
+        <ul class="project-features">
+          <li>Animation de tracé SVG au chargement</li>
+          <li>Grille de projets asymétrique</li>
+          <li>Visuels 100 % CSS, aucune image</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS Grid</span>
+          <span class="tech-tag">SVG animé</span>
+        </div>
+        <div class="project-footer">
+          <a href="../sites/atelier-volta/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Voir le site →</a>
+        </div>
+    </article>
 
-    <div class="project-card reveal" data-tags="landing">
-      <span class="project-number">SITE_002</span>
-      <div class="project-status status-planned"><span>◎</span> Planifié</div>
-      <h3 class="project-title">Nom du projet</h3>
-      <p class="project-desc">
-        Description du projet prévu. Quel est l'objectif de cette landing page ?
-        Pour quel produit ou service ?
-      </p>
-      <div class="project-tech">
-        <span class="tech-tag">Next.js</span>
-        <span class="tech-tag">Tailwind</span>
-      </div>
-      <div class="project-footer">
-        <span class="project-link" style="color:var(--muted)">Bientôt disponible</span>
-      </div>
-    </div>
+    <article class="project-card reveal" id="vertige" data-tags="sport" data-href="../sites/vertige/index.html" data-target="_blank">
+        <span class="project-number">SITE_003</span>
+        <div class="project-status status-demo"><span>◆</span> Démo — entreprise fictive</div>
+        <div class="site-swatch" aria-hidden="true"><i style="background:#c6ff3d"></i><i style="background:#2a1fb8"></i><i style="background:#ff6b4a"></i><i style="background:#0d0d12"></i></div>
+        <h3 class="project-title">Vertige</h3>
+        <p class="project-desc">Salle d'escalade de bloc à Villeurbanne. Style néo-brutaliste énergique : vert acide, indigo, ombres franches et typo condensée.</p>
+        <ul class="project-features">
+          <li>Mur d'escalade SVG avec prises animées</li>
+          <li>Grille tarifaire et planning de cours</li>
+          <li>Boutons à effet « pression »</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+          <span class="tech-tag">SVG</span>
+          <span class="tech-tag">JavaScript</span>
+        </div>
+        <div class="project-footer">
+          <a href="../sites/vertige/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Voir le site →</a>
+        </div>
+    </article>
 
-    <!-- Message si aucun projet -->
+    <article class="project-card reveal" id="koji-ramen" data-tags="restauration" data-href="../sites/koji-ramen/index.html" data-target="_blank">
+        <span class="project-number">SITE_004</span>
+        <div class="project-status status-demo"><span>◆</span> Démo — entreprise fictive</div>
+        <div class="site-swatch" aria-hidden="true"><i style="background:#f4efe6"></i><i style="background:#d9381e"></i><i style="background:#e8b867"></i><i style="background:#1b1b1b"></i></div>
+        <h3 class="project-title">Kōji</h3>
+        <p class="project-desc">Bar à ramen dans le 7e. Minimalisme japonais sur papier washi, accent vermillon, texte vertical et bol de ramen à la vapeur animée.</p>
+        <ul class="project-features">
+          <li>Carte des plats avec badges (signature, végé…)</li>
+          <li>Frise du bouillon en 4 étapes</li>
+          <li>Menu mobile en ouverture circulaire</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">HTML</span>
+          <span class="tech-tag">CSS</span>
+          <span class="tech-tag">SVG animé</span>
+        </div>
+        <div class="project-footer">
+          <a href="../sites/koji-ramen/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Voir le site →</a>
+        </div>
+    </article>
+
     <div class="empty-state" id="empty-state" style="display:none">
       <div class="empty-icon">◎</div>
       Aucun projet dans cette catégorie pour le moment.
@@ -283,7 +326,7 @@
 
 <!-- ─── FOOTER ─── -->
 <footer>
-  <div>Conçu &amp; développé par <span>Thomas Balestro/div>
+  <div>Conçu &amp; développé par <span>Thomas Balestro</span></div>
   <div><a href="../index.html" style="color:var(--muted);text-decoration:none">← Retour au portfolio</a></div>
 </footer>
 
