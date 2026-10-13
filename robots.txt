@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thomasbalestro.github.io/Portfolio/sitemap.xml

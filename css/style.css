@@ -725,3 +725,56 @@ footer span { color: var(--cyan); }
   .contact-box  { padding: 40px 24px; }
   footer        { flex-direction: column; gap: 8px; text-align: center; }
 }
+
+/* ─── AJOUTS : DÉTAIL DES PROJETS ─── */
+
+/* Liste des fonctionnalités dans une carte */
+.project-features {
+  list-style: none;
+  margin: -8px 0 24px;
+  display: grid;
+  gap: 6px;
+}
+.project-features li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text);
+  opacity: .8;
+}
+.project-features li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--cyan);
+}
+
+/* Lien inactif (code privé, bientôt disponible…) */
+.project-link.muted,
+.project-card[data-href]:hover .project-link.muted { color: var(--muted); gap: 6px; }
+
+/* Les ancres (#rpg-medieval…) ne passent plus sous la nav fixe */
+.project-card[id] { scroll-margin-top: 110px; }
+
+/* Focus clavier visible sur les cartes cliquables */
+.project-card:focus-visible {
+  outline: 1px solid var(--cyan);
+  outline-offset: 4px;
+}
+
+/* Cible d'ancre : léger flash pour repérer la carte en arrivant */
+.project-card:target { border-color: var(--cyan); box-shadow: var(--glow-c); }
+
+/* Les cartes restent visibles si le JS est désactivé */
+@media (scripting: none) {
+  .reveal, .timeline-item { opacity: 1; transform: none; }
+}
+
+/* Accessibilité : pas d'animations pour qui les a désactivées */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal, .timeline-item { opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
+}
+.project-card:not([data-href]) { cursor: default; }

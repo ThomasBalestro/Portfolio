@@ -3,8 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sites Internet — Portfolio</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Sites internet — Thomas Balestro</title>
+  <meta name="description" content="Sites vitrine, landing pages et sites institutionnels réalisés par Thomas Balestro, développeur web près de Lyon." />
+  <meta name="author" content="Thomas Balestro" />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href="https://thomasbalestro.github.io/Portfolio/page/sites-internet.html" />
+  <meta name="theme-color" content="#04040a" />
+  <link rel="icon" href="../media/favicon.svg" type="image/svg+xml" />
+
+  <!-- Partage (LinkedIn, Discord, X…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Thomas Balestro — Portfolio" />
+  <meta property="og:title" content="Sites internet — Thomas Balestro" />
+  <meta property="og:description" content="Sites vitrine, landing pages et sites institutionnels réalisés par Thomas Balestro, développeur web près de Lyon." />
+  <meta property="og:url" content="https://thomasbalestro.github.io/Portfolio/page/sites-internet.html" />
+  <meta property="og:image" content="https://thomasbalestro.github.io/Portfolio/media/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
@@ -172,6 +194,8 @@
   </ul>
 </div>
 
+<main id="main">
+
 <!-- ─── PAGE HERO ─── -->
 <div class="page-hero">
   <a href="../index.html" class="back-link">
@@ -255,40 +279,15 @@
   </div>
 </div>
 
+</main>
+
 <!-- ─── FOOTER ─── -->
 <footer>
   <div>Conçu &amp; développé par <span>Thomas Balestro/div>
   <div><a href="../index.html" style="color:var(--muted);text-decoration:none">← Retour au portfolio</a></div>
 </footer>
 
-<script src="../js/main.js"></script>
-<script>
-  /* ── Compteur de projets ── */
-  const cards = document.querySelectorAll('.project-card[data-tags]');
-  document.getElementById('project-count').textContent = cards.length;
-
-  /* ── Filtres ── */
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const emptyState = document.getElementById('empty-state');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filter = btn.dataset.filter;
-      let visible = 0;
-
-      cards.forEach(card => {
-        const tags = card.dataset.tags.split(' ');
-        const show = filter === 'all' || tags.includes(filter);
-        card.style.display = show ? '' : 'none';
-        if (show) visible++;
-      });
-
-      emptyState.style.display = visible === 0 ? 'block' : 'none';
-    });
-  });
-</script>
+<script src="../js/main.js" defer></script>
+<script src="../js/annex.js" defer></script>
 </body>
 </html>

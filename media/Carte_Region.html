@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' data: https:; connect-src https://cdn.jsdelivr.net https://geo.api.gouv.fr; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests" />
+  <!-- Les serveurs de tuiles OpenStreetMap exigent un en-tête Referer -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="description" content="Carte interactive de toutes les communes d'Auvergne-Rhône-Alpes : recherche, filtrage par département et statistiques. Projet de Thomas Balestro." />
+  <meta name="author" content="Thomas Balestro" />
+  <link rel="canonical" href="https://thomasbalestro.github.io/Portfolio/media/Carte_Region.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>Carte des communes - Auvergne-Rhône-Alpes</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    #app {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      height: 100vh;
+    }
+
+    #sidebar {
+      background: #1f2937;
+      color: #f3f4f6;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    }
+
+    #sidebar h1 {
+      font-size: 18px;
+      margin-bottom: 4px;
+      color: #fbbf24;
+    }
+
+    #sidebar h2 {
+      font-size: 13px;
+      font-weight: 400;
+      margin-bottom: 20px;
+      color: #9ca3af;
+    }
+
+    .stat-box {
+      background: #374151;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .stat-box .value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fbbf24;
+    }
+
+    .stat-box .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #9ca3af;
+      letter-spacing: 0.5px;
+    }
+
+    #search {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 6px;
+      background: #374151;
+      color: #f3f4f6;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    #search::placeholder { color: #9ca3af; }
+    #search:focus { outline: 2px solid #fbbf24; }
+
+    #search-results {
+      max-height: 220px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+      background: #111827;
+      border-radius: 6px;
+    }
+    .search-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      border-bottom: 1px solid #1f2937;
+    }
+    .search-item:hover { background: #374151; }
+    .search-item .dept {
+      color: #9ca3af;
+      font-size: 11px;
+      float: right;
+    }
+
+    #legend h3 {
+      font-size: 13px;
+      margin: 16px 0 8px;
+      color: #fbbf24;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .dept-list {
+      list-style: none;
+    }
+    .dept-list li {
+      padding: 6px 8px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .dept-list li:hover { background: #374151; }
+    .dept-color {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      margin-right: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .dept-count {
+      margin-left: auto;
+      color: #9ca3af;
+      font-size: 11px;
+    }
+
+    #map {
+      height: 100%;
+      background: #e5e7eb;
+    }
+
+    #loading {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(31, 41, 55, 0.95);
+      color: #fbbf24;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .info-popup {
+      font-size: 13px;
+    }
+    .info-popup b {
+      color: #1f2937;
+      font-size: 15px;
+    }
+    .info-popup .code {
+      color: #6b7280;
+      font-size: 11px;
+      font-family: monospace;
+    }
+    .info-popup .stat-line {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #374151;
+    }
+    .info-popup .stat-line b { font-size: 13px; color: #111827; }
+
+    /* Sélecteur de mode de coloration */
+    .mode-toggle {
+      display: flex;
+      background: #111827;
+      border-radius: 6px;
+      padding: 3px;
+      margin-bottom: 16px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 7px 10px;
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .mode-btn:hover { color: #f3f4f6; }
+    .mode-btn.active {
+      background: #fbbf24;
+      color: #1f2937;
+    }
+
+    /* Légende densité */
+    .density-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .density-row {
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      color: #d1d5db;
+    }
+    .density-swatch {
+      width: 22px;
+      height: 14px;
+      margin-right: 8px;
+      border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .leaflet-tooltip.commune-tooltip {
+      background: rgba(31,41,55,0.95);
+      color: #fbbf24;
+      border: none;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 4px 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .leaflet-tooltip.commune-tooltip::before { display: none; }
+
+    /* Sélecteur de fonds de carte */
+    .leaflet-control-layers {
+      background: rgba(31, 41, 55, 0.95) !important;
+      color: #f3f4f6;
+      border: none !important;
+      border-radius: 8px !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25) !important;
+      padding: 6px 4px !important;
+    }
+    .leaflet-control-layers-expanded {
+      padding: 10px 14px !important;
+    }
+    .leaflet-control-layers label {
+      display: flex !important;
+      align-items: center;
+      padding: 4px 0;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .leaflet-control-layers label:hover { color: #fbbf24; }
+    .leaflet-control-layers input[type="radio"] {
+      margin-right: 8px;
+      accent-color: #fbbf24;
+    }
+    .leaflet-control-layers-separator {
+      border-top: 1px solid #374151 !important;
+    }
+
+    @media (max-width: 768px) {
+      #app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+      #sidebar { max-height: 40vh; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <h1>🗺️ Auvergne-Rhône-Alpes</h1>
+      <h2>Carte interactive des communes</h2>
+
+      <div class="stat-box">
+        <div class="value" id="total-communes">…</div>
+        <div class="label">Communes chargées</div>
+      </div>
+
+      <input id="search" type="text" placeholder="🔍 Rechercher une commune…" />
+      <div id="search-results"></div>
+
+      <div id="legend">
+        <h3>Coloration</h3>
+        <div class="mode-toggle">
+          <button class="mode-btn active" data-mode="dept">Par département</button>
+          <button class="mode-btn" data-mode="density">Densité</button>
+        </div>
+      </div>
+
+      <div id="dept-legend">
+        <h3>Départements</h3>
+        <ul class="dept-list" id="dept-list"></ul>
+      </div>
+
+      <div id="density-legend-box" style="display:none;">
+        <h3>Densité (hab/km²)</h3>
+        <div class="density-scale" id="density-scale"></div>
+        <div style="margin-top:10px; font-size:10px; color:#9ca3af;">
+          Source : INSEE via geo.api.gouv.fr
+        </div>
+      </div>
+
+      <div style="margin-top:20px; font-size:11px; color:#6b7280; line-height:1.5;">
+        Données : <a href="https://github.com/gregoiredavid/france-geojson" target="_blank" rel="noopener noreferrer" style="color:#9ca3af;">france-geojson</a><br/>
+        Fond : sélectionnable en haut à droite ↗
+      </div>
+    </aside>
+
+    <div style="position:relative;">
+      <div id="loading">Chargement des données…</div>
+      <div id="map"></div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+  <script>
+    // Les 12 départements de la région Auvergne-Rhône-Alpes
+    const departments = [
+      { code: '01', name: 'Ain',          color: '#ef4444' },
+      { code: '03', name: 'Allier',       color: '#f97316' },
+      { code: '07', name: 'Ardèche',      color: '#eab308' },
+      { code: '15', name: 'Cantal',       color: '#84cc16' },
+      { code: '26', name: 'Drôme',        color: '#22c55e' },
+      { code: '38', name: 'Isère',        color: '#14b8a6' },
+      { code: '42', name: 'Loire',        color: '#0ea5e9' },
+      { code: '43', name: 'Haute-Loire',  color: '#6366f1' },
+      { code: '63', name: 'Puy-de-Dôme',  color: '#a855f7' },
+      { code: '69', name: 'Rhône',        color: '#ec4899' },
+      { code: '73', name: 'Savoie',       color: '#f43f5e' },
+      { code: '74', name: 'Haute-Savoie', color: '#06b6d4' }
+    ];
+
+    // Initialisation de la carte centrée sur la région
+    const map = L.map('map', {
+      center: [45.5, 4.8],
+      zoom: 8,
+      preferCanvas: true   // Canvas est beaucoup plus performant pour des milliers de polygones
+    });
+
+    // Fonds de carte disponibles (tous fonctionnent en file:// local)
+    const baseLayers = {
+      'Standard': L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap, © CARTO',
+        subdomains: 'abcd',
+        maxZoom: 20
+      }),
+      'OSM France': L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap France',
+        subdomains: 'abc',
+        maxZoom: 20
+      }),
+      'Clair (Carto)': L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap, © CARTO',
+        subdomains: 'abcd',
+        maxZoom: 20
+      }),
+      'Sombre (Carto)': L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap, © CARTO',
+        subdomains: 'abcd',
+        maxZoom: 20
+      }),
+      'Satellite (Esri)': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri — Maxar, Earthstar Geographics',
+        maxZoom: 19
+      }),
+      'Topographique': L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap, SRTM | © OpenTopoMap (CC-BY-SA)',
+        subdomains: 'abc',
+        maxZoom: 17
+      }),
+      'Relief (Esri)': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri',
+        maxZoom: 19
+      })
+    };
+
+    // Fond par défaut
+    baseLayers['Standard'].addTo(map);
+
+    // Sélecteur de fond de carte
+    L.control.layers(baseLayers, null, {
+      position: 'topright',
+      collapsed: false
+    }).addTo(map);
+
+    const allCommunes = [];      // Index pour la recherche
+    const layerGroups = {};      // Groupes de calques par département
+    const populationByCode = {}; // INSEE code -> { population, surface (ha) }
+    let totalLoaded = 0;
+    let colorMode = 'dept';      // 'dept' ou 'density'
+
+    // Échelle de densité (hab/km²) — palette YlOrRd classique pour la cartographie de population
+    const DENSITY_BREAKS = [
+      { max: 10,       color: '#ffffcc', label: '< 10' },
+      { max: 25,       color: '#ffeda0', label: '10 – 25' },
+      { max: 50,       color: '#fed976', label: '25 – 50' },
+      { max: 100,      color: '#feb24c', label: '50 – 100' },
+      { max: 250,      color: '#fd8d3c', label: '100 – 250' },
+      { max: 500,      color: '#fc4e2a', label: '250 – 500' },
+      { max: 1000,     color: '#e31a1c', label: '500 – 1 000' },
+      { max: 2500,     color: '#bd0026', label: '1 000 – 2 500' },
+      { max: Infinity, color: '#800026', label: '> 2 500' }
+    ];
+
+    function getDensityColor(density) {
+      if (density == null || isNaN(density)) return '#cccccc';
+      for (const b of DENSITY_BREAKS) if (density < b.max) return b.color;
+      return '#800026';
+    }
+
+    function densityFor(code) {
+      const d = populationByCode[code];
+      if (!d || !d.surface || d.population == null) return null;
+      return (d.population / d.surface) * 100; // surface en hectares -> hab/km²
+    }
+
+    // Style normal (selon le mode actif)
+    function styleForCommune(c) {
+      if (colorMode === 'dept') {
+        return {
+          fillColor: c.dept.color,
+          weight: 0.5,
+          opacity: 1,
+          color: '#ffffff',
+          fillOpacity: 0.55
+        };
+      }
+      const d = densityFor(c.code);
+      return {
+        fillColor: getDensityColor(d),
+        weight: 0.3,
+        opacity: 1,
+        color: '#ffffff',
+        fillOpacity: d == null ? 0.4 : 0.78
+      };
+    }
+
+    // Style au survol
+    function highlightForCommune(c) {
+      if (colorMode === 'dept') {
+        return { fillColor: c.dept.color, weight: 2, color: '#1f2937', fillOpacity: 0.85 };
+      }
+      const d = densityFor(c.code);
+      return { fillColor: getDensityColor(d), weight: 2, color: '#1f2937', fillOpacity: 0.95 };
+    }
+
+    function makePopupContent(c) {
+      const d = populationByCode[c.code];
+      let stats = '';
+      if (d && d.population != null && d.surface) {
+        const density = (d.population / d.surface) * 100;
+        const km2 = d.surface / 100;
+        stats = `
+          <div class="stat-line">Population : <b>${d.population.toLocaleString('fr-FR')}</b> hab.</div>
+          <div class="stat-line">Superficie : <b>${km2.toFixed(1)}</b> km²</div>
+          <div class="stat-line">Densité : <b>${density.toFixed(0)}</b> hab/km²</div>
+        `;
+      } else {
+        stats = `<div class="stat-line" style="color:#9ca3af;">Données INSEE non disponibles</div>`;
+      }
+      return `
+        <div class="info-popup">
+          <b>${c.name}</b><br/>
+          <span class="code">Code INSEE : ${c.code}</span><br/>
+          Département : ${c.dept.name} (${c.dept.code})
+          ${stats}
+        </div>
+      `;
+    }
+
+    function onEachFeature(feature, layer, dept) {
+      const name = feature.properties.nom || 'Commune';
+      const code = feature.properties.code || '';
+
+      const commune = { name, code, dept, layer };
+      allCommunes.push(commune);
+
+      layer.bindTooltip(name, {
+        sticky: true,
+        className: 'commune-tooltip',
+        direction: 'top'
+      });
+
+      layer.bindPopup(() => makePopupContent(commune));
+
+      layer.on('mouseover', () => layer.setStyle(highlightForCommune(commune)));
+      layer.on('mouseout',  () => layer.setStyle(styleForCommune(commune)));
+    }
+
+    function recolorAll() {
+      allCommunes.forEach(c => c.layer.setStyle(styleForCommune(c)));
+    }
+
+    // Charge les communes d'un département depuis le CDN jsDelivr
+    async function loadDepartment(dept) {
+      const slug = dept.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s/g, '-');
+      const url = `https://cdn.jsdelivr.net/gh/gregoiredavid/france-geojson@master/departements/${dept.code}-${slug}/communes-${dept.code}-${slug}.geojson`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        // Crée d'abord les calques avec onEachFeature pour remplir allCommunes
+        const layer = L.geoJSON(data, {
+          style: () => ({ fillColor: dept.color, weight: 0.5, color: '#fff', fillOpacity: 0.55 }),
+          onEachFeature: (f, l) => onEachFeature(f, l, dept)
+        });
+
+        layer.addTo(map);
+        layerGroups[dept.code] = layer;
+
+        const count = data.features.length;
+        totalLoaded += count;
+
+        document.getElementById('total-communes').textContent = totalLoaded.toLocaleString('fr-FR');
+        updateDeptListItem(dept.code, count);
+
+        return count;
+      } catch (err) {
+        console.error(`Erreur chargement ${dept.name}:`, err);
+        updateDeptListItem(dept.code, 'erreur');
+        return 0;
+      }
+    }
+
+    // Charge la population & superficie via l'API officielle geo.api.gouv.fr (données INSEE)
+    async function loadPopulation(deptCode) {
+      const url = `https://geo.api.gouv.fr/communes?codeDepartement=${deptCode}&fields=code,population,surface`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        data.forEach(c => {
+          populationByCode[c.code] = { population: c.population, surface: c.surface };
+        });
+      } catch (err) {
+        console.error(`Erreur population dept ${deptCode}:`, err);
+      }
+    }
+
+    // Construit la liste des départements dans la barre latérale
+    function buildDeptList() {
+      const list = document.getElementById('dept-list');
+      departments.forEach(d => {
+        const li = document.createElement('li');
+        li.id = `dept-${d.code}`;
+        li.innerHTML = `
+          <span class="dept-color" style="background:${d.color}"></span>
+          <span>${d.name} (${d.code})</span>
+          <span class="dept-count" id="count-${d.code}">…</span>
+        `;
+        li.onclick = () => zoomToDept(d.code);
+        list.appendChild(li);
+      });
+    }
+
+    function updateDeptListItem(code, count) {
+      const el = document.getElementById(`count-${code}`);
+      if (el) el.textContent = typeof count === 'number' ? count.toLocaleString('fr-FR') : count;
+    }
+
+    function zoomToDept(code) {
+      const layer = layerGroups[code];
+      if (layer) map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+    }
+
+    // Recherche
+    const searchInput = document.getElementById('search');
+    const searchResults = document.getElementById('search-results');
+    let searchTimeout;
+
+    searchInput.addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const q = e.target.value.trim().toLowerCase();
+        searchResults.innerHTML = '';
+        if (q.length < 2) return;
+
+        const matches = allCommunes
+          .filter(c => c.name.toLowerCase().includes(q))
+          .slice(0, 30);
+
+        matches.forEach(c => {
+          const div = document.createElement('div');
+          div.className = 'search-item';
+          div.innerHTML = `${c.name} <span class="dept">${c.dept.code}</span>`;
+          div.onclick = () => {
+            map.fitBounds(c.layer.getBounds(), { maxZoom: 13 });
+            c.layer.openPopup();
+          };
+          searchResults.appendChild(div);
+        });
+
+        if (matches.length === 0) {
+          searchResults.innerHTML = '<div class="search-item" style="color:#9ca3af;">Aucun résultat</div>';
+        }
+      }, 200);
+    });
+
+    // Construction de la légende de densité (du plus dense au moins dense)
+    function buildDensityLegend() {
+      const el = document.getElementById('density-scale');
+      [...DENSITY_BREAKS].reverse().forEach(b => {
+        const row = document.createElement('div');
+        row.className = 'density-row';
+        row.innerHTML = `<span class="density-swatch" style="background:${b.color}"></span><span>${b.label}</span>`;
+        el.appendChild(row);
+      });
+      const noData = document.createElement('div');
+      noData.className = 'density-row';
+      noData.innerHTML = `<span class="density-swatch" style="background:#cccccc"></span><span>Sans données</span>`;
+      el.appendChild(noData);
+    }
+
+    // Gestion du basculement entre les deux modes de coloration
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        colorMode = btn.dataset.mode;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b === btn));
+        document.getElementById('dept-legend').style.display = colorMode === 'dept' ? '' : 'none';
+        document.getElementById('density-legend-box').style.display = colorMode === 'density' ? '' : 'none';
+        recolorAll();
+      });
+    });
+
+    // Lancement
+    buildDeptList();
+    buildDensityLegend();
+
+    (async () => {
+      const loadingEl = document.getElementById('loading');
+      loadingEl.textContent = 'Chargement des communes et de la population…';
+
+      // Communes (GeoJSON) ET données de population chargées en parallèle
+      const geoPromises = departments.map(d => loadDepartment(d));
+      const popPromises = departments.map(d => loadPopulation(d.code));
+
+      await Promise.all([...geoPromises, ...popPromises]);
+
+      // Si on est passé en mode densité avant la fin du chargement, on recolorie
+      recolorAll();
+
+      loadingEl.textContent = `✓ ${totalLoaded.toLocaleString('fr-FR')} communes chargées`;
+      setTimeout(() => loadingEl.style.display = 'none', 2500);
+
+      // Ajuste la vue à toute la région
+      const allBounds = L.latLngBounds([]);
+      Object.values(layerGroups).forEach(g => allBounds.extend(g.getBounds()));
+      if (allBounds.isValid()) map.fitBounds(allBounds, { padding: [20, 20] });
+    })();
+  </script>
+</body>
+</html>

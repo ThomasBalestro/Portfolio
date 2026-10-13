@@ -3,8 +3,73 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Projets Web — Portfolio</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Projets web — Carte AuRA &amp; NoteFlow | Thomas Balestro</title>
+  <meta name="description" content="Carte interactive des communes d'Auvergne-Rhône-Alpes (Leaflet, GeoJSON) et NoteFlow, éditeur de notes par blocs en React : les projets web de Thomas Balestro." />
+  <meta name="author" content="Thomas Balestro" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://thomasbalestro.github.io/Portfolio/page/projets-web.html" />
+  <meta name="theme-color" content="#04040a" />
+  <link rel="icon" href="../media/favicon.svg" type="image/svg+xml" />
+
+  <!-- Partage (LinkedIn, Discord, X…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Thomas Balestro — Portfolio" />
+  <meta property="og:title" content="Projets web — Carte AuRA &amp; NoteFlow | Thomas Balestro" />
+  <meta property="og:description" content="Carte interactive des communes d'Auvergne-Rhône-Alpes (Leaflet, GeoJSON) et NoteFlow, éditeur de notes par blocs en React : les projets web de Thomas Balestro." />
+  <meta property="og:url" content="https://thomasbalestro.github.io/Portfolio/page/projets-web.html" />
+  <meta property="og:image" content="https://thomasbalestro.github.io/Portfolio/media/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Données structurées (Google) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Projets web — Thomas Balestro",
+  "url": "https://thomasbalestro.github.io/Portfolio/page/projets-web.html",
+  "author": {
+    "@type": "Person",
+    "name": "Thomas Balestro",
+    "url": "https://thomasbalestro.github.io/Portfolio/"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "WebApplication",
+          "name": "Carte des communes Auvergne-Rhône-Alpes",
+          "url": "https://thomasbalestro.github.io/Portfolio/media/Carte_Region.html",
+          "applicationCategory": "ReferenceApplication",
+          "operatingSystem": "Navigateur web"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "WebApplication",
+          "name": "NoteFlow",
+          "url": "https://thomasbalestro.github.io/noteflow/",
+          "applicationCategory": "ProductivityApplication",
+          "operatingSystem": "Navigateur web",
+          "codeRepository": "https://github.com/ThomasBalestro/noteflow"
+        }
+      }
+    ]
+  }
+}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
@@ -151,6 +216,8 @@
   </ul>
 </div>
 
+<main id="main">
+
 <!-- ─── PAGE HERO ─── -->
 <div class="page-hero">
   <a href="../index.html" class="back-link">
@@ -173,53 +240,73 @@
 
   <div class="filters">
     <button class="filter-btn active" data-filter="all">Tous</button>
-    <button class="filter-btn" data-filter="saas">SaaS</button>
-    <button class="filter-btn" data-filter="dashboard">Dashboard</button>
-    <button class="filter-btn" data-filter="api">API / Backend</button>
-    <button class="filter-btn" data-filter="fullstack">Full-Stack</button>
-    <button class="filter-btn" data-filter="outil">Outil</button>
+    <button class="filter-btn" data-filter="outil">Outils</button>
+    <button class="filter-btn" data-filter="cartographie">Cartographie</button>
+    <button class="filter-btn" data-filter="productivite">Productivité</button>
   </div>
 
   <div class="projects-grid" id="projects-grid">
 
-    <!-- ══ AJOUTE TES PROJETS ICI ══ -->
-
-    <div class="project-card reveal" data-tags="fullstack saas">
-      <span class="project-number">WEB_001</span>
-      <div class="project-status status-ongoing"><span>●</span> En cours</div>
-      <h3 class="project-title">Nom de l'app web</h3>
-      <p class="project-desc">
-        Décrivez votre application : fonctionnalités principales, utilisateurs cibles,
-        modèle économique si applicable. Quel problème résout-elle ?
-      </p>
-      <div class="project-tech">
-        <span class="tech-tag">React</span>
-        <span class="tech-tag">Node.js</span>
-        <span class="tech-tag">PostgreSQL</span>
+    <!-- ══ WEB_001 — CARTE DES COMMUNES AuRA ══ -->
+    <article class="project-card featured reveal" id="carte-aura" data-tags="outil cartographie" data-href="../media/Carte_Region.html" data-target="_blank" rel="noopener noreferrer">
+      <div>
+        <span class="project-number">WEB_001</span>
+        <div class="project-status status-done"><span>✓</span> Terminé</div>
+        <h3 class="project-title">Carte des Communes<br>Auvergne-Rhône-Alpes</h3>
+        <p class="project-desc">
+          Carte interactive de toutes les communes de la région Auvergne-Rhône-Alpes,
+          colorées par département. On cherche une commune, on isole un département
+          et les statistiques se mettent à jour à la volée.
+        </p>
+        <ul class="project-features">
+          <li>Recherche instantanée par nom de commune</li>
+          <li>Filtrage et légende par département, avec compteurs</li>
+          <li>7 fonds de carte : standard, sombre, satellite, topographique…</li>
+          <li>Données open data : contours GeoJSON (france-geojson) et populations via l'API Géo de l'État</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Leaflet.js</span>
+          <span class="tech-tag">GeoJSON</span>
+          <span class="tech-tag">CSS Grid</span>
+        </div>
+        <div class="project-footer">
+          <a href="../media/Carte_Region.html" class="project-link" target="_blank" rel="noopener noreferrer">Ouvrir la carte →</a>
+        </div>
       </div>
-      <div class="project-footer">
-        <a href="#" class="project-link">Voir le projet →</a>
-        <a href="#" class="project-link">GitHub →</a>
+      <div class="project-visual">
+        <div class="visual-icon">🗺️</div>
       </div>
-    </div>
+    </article>
 
-    <div class="project-card reveal" data-tags="dashboard api">
+    <!-- ══ WEB_002 — NOTEFLOW ══ -->
+    <article class="project-card reveal" id="noteflow" data-tags="outil productivite" data-href="https://thomasbalestro.github.io/noteflow/" data-target="_blank" rel="noopener noreferrer">
       <span class="project-number">WEB_002</span>
-      <div class="project-status status-planned"><span>◎</span> Planifié</div>
-      <h3 class="project-title">Nom du projet</h3>
+      <div class="project-status status-ongoing"><span>●</span> En ligne — v4</div>
+      <h3 class="project-title">NoteFlow</h3>
       <p class="project-desc">
-        Description du projet web prévu. Stack envisagée, périmètre,
-        date de lancement estimée.
+        Éditeur de notes par blocs, inspiré de Notion, qui tourne entièrement dans
+        le navigateur : aucune donnée ne quitte l'appareil.
       </p>
+      <ul class="project-features">
+        <li>9 types de blocs : titres, listes, tâches, citations, tableaux…</li>
+        <li>Tags colorés, recherche et glisser-déposer des blocs</li>
+        <li>Mode sombre et interface responsive</li>
+        <li>Sauvegarde automatique locale, migration des anciennes notes Markdown</li>
+      </ul>
       <div class="project-tech">
-        <span class="tech-tag">Next.js</span>
-        <span class="tech-tag">Prisma</span>
-        <span class="tech-tag">Redis</span>
+        <span class="tech-tag">React 18</span>
+        <span class="tech-tag">Vite 5</span>
+        <span class="tech-tag">localStorage</span>
+        <span class="tech-tag">GitHub Pages</span>
       </div>
       <div class="project-footer">
-        <span class="project-link" style="color:var(--muted)">Bientôt disponible</span>
+        <a href="https://thomasbalestro.github.io/noteflow/" class="project-link" target="_blank" rel="noopener noreferrer">Ouvrir l'app →</a>
+        <a href="https://github.com/ThomasBalestro/noteflow" class="project-link" target="_blank" rel="noopener noreferrer">GitHub →</a>
       </div>
-    </div>
+    </article>
+
+    <!-- ══ AJOUTE TES PROCHAINS PROJETS ICI ══ -->
 
     <div class="empty-state" id="empty-state" style="display:none">
       <div class="empty-icon">◎</div>
@@ -229,34 +316,15 @@
   </div>
 </div>
 
+</main>
+
 <!-- ─── FOOTER ─── -->
 <footer>
   <div>Conçu &amp; développé par <span>Thomas Balestro</span></div>
   <div><a href="../index.html" style="color:var(--muted);text-decoration:none">← Retour au portfolio</a></div>
 </footer>
 
-<script src="../js/main.js"></script>
-<script>
-  const cards = document.querySelectorAll('.project-card[data-tags]');
-  document.getElementById('project-count').textContent = cards.length;
-
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const emptyState = document.getElementById('empty-state');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      let visible = 0;
-      cards.forEach(card => {
-        const show = filter === 'all' || card.dataset.tags.split(' ').includes(filter);
-        card.style.display = show ? '' : 'none';
-        if (show) visible++;
-      });
-      emptyState.style.display = visible === 0 ? 'block' : 'none';
-    });
-  });
-</script>
+<script src="../js/main.js" defer></script>
+<script src="../js/annex.js" defer></script>
 </body>
 </html>

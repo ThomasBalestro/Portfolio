@@ -3,10 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio — Développeur Web & Logiciel</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Thomas Balestro — Développeur Web &amp; Logiciel à Lyon | Portfolio</title>
+  <meta name="description" content="Portfolio de Thomas Balestro, développeur web full-stack près de Lyon : applications web (React, Leaflet), sites internet et jeux Unity. Projets, compétences et contact." />
+  <meta name="author" content="Thomas Balestro" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://thomasbalestro.github.io/Portfolio/" />
+  <meta name="theme-color" content="#04040a" />
+  <link rel="icon" href="media/favicon.svg" type="image/svg+xml" />
 
-  <!-- Google Fonts -->
+  <!-- Partage (LinkedIn, Discord, X…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Thomas Balestro — Portfolio" />
+  <meta property="og:title" content="Thomas Balestro — Développeur Web &amp; Logiciel à Lyon | Portfolio" />
+  <meta property="og:description" content="Portfolio de Thomas Balestro, développeur web full-stack près de Lyon : applications web (React, Leaflet), sites internet et jeux Unity. Projets, compétences et contact." />
+  <meta property="og:url" content="https://thomasbalestro.github.io/Portfolio/" />
+  <meta property="og:image" content="https://thomasbalestro.github.io/Portfolio/media/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Données structurées (Google) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://thomasbalestro.github.io/Portfolio/#thomas",
+      "name": "Thomas Balestro",
+      "jobTitle": "Développeur Web & Logiciel",
+      "url": "https://thomasbalestro.github.io/Portfolio/",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Lyon",
+        "addressCountry": "FR"
+      },
+      "sameAs": [
+        "https://github.com/ThomasBalestro",
+        "https://www.linkedin.com/in/thomas-balestro"
+      ],
+      "knowsAbout": [
+        "Développement web",
+        "React",
+        "JavaScript",
+        "Node.js",
+        "Unity",
+        "C#",
+        "Leaflet"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://thomasbalestro.github.io/Portfolio/#site",
+      "url": "https://thomasbalestro.github.io/Portfolio/",
+      "name": "Thomas Balestro — Portfolio",
+      "inLanguage": "fr-FR",
+      "author": {
+        "@id": "https://thomasbalestro.github.io/Portfolio/#thomas"
+      }
+    }
+  ]
+}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap"
     rel="stylesheet"
@@ -52,6 +116,8 @@
   </ul>
 </div>
 
+<main id="main">
+
 <!-- ─── HERO ─── -->
 <section id="hero">
   <div class="hero-orb hero-orb-1"></div>
@@ -93,31 +159,30 @@
 
     <div class="projects-grid">
 
-      <!-- PROJECT 001 — FEATURED -->
-      <div class="project-card featured reveal" data-href="#">
+      <!-- PROJECT 001 — FEATURED : projet phare actuel.
+           Pour changer de projet phare, modifie le data-href (page + #id de la carte). -->
+      <div class="project-card featured reveal" data-href="page/applications.html#rpg-medieval">
         <div>
-          <span class="project-number">PROJECT_001</span>
+          <span class="project-number">PROJECT_001 — Projet phare</span>
           <div class="project-status status-ongoing"><span>●</span> En cours</div>
-          <h3 class="project-title">Projet Phare en Cours</h3>
+          <h3 class="project-title">RPG Medieval V1</h3>
           <p class="project-desc">
-            Décrivez votre projet le plus ambitieux ici. Quel problème résout-il ?
-            Quelle technologie innovante utilisez-vous ? Quel est l'impact attendu ?
-            Ce projet représente votre vision et vos compétences les plus avancées.
+            RPG de survie 2D sous Unity 6 où chaque partie génère un monde différent :
+            biomes, grottes, villages et camps de monstres. Craft, commerce avec les PNJ,
+            boss et une Tour des épreuves en 10 paliers.
           </p>
           <div class="project-tech">
-            <span class="tech-tag">React</span>
-            <span class="tech-tag">Node.js</span>
-            <span class="tech-tag">PostgreSQL</span>
-            <span class="tech-tag">Docker</span>
-            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Unity 6</span>
+            <span class="tech-tag">C#</span>
+            <span class="tech-tag">Génération procédurale</span>
+            <span class="tech-tag">ScriptableObjects</span>
           </div>
           <div class="project-footer">
-            <a href="#" class="project-link">Voir le projet →</a>
-            <a href="#" class="project-link">GitHub →</a>
+            <span class="project-link">Voir le projet →</span>
           </div>
         </div>
         <div class="project-visual">
-          <div class="visual-icon">⚡</div>
+          <div class="visual-icon">⚔️</div>
         </div>
       </div>
 
@@ -147,13 +212,13 @@
         <div class="project-status status-ongoing"><span>●</span> En cours</div>
         <h3 class="project-title">Projets Web</h3>
         <p class="project-desc">
-          Applications web, dashboards, SaaS et plateformes en ligne.
-          Tout ce qui vit dans le navigateur et va bien au-delà d'un simple site.
+          Outils qui tournent dans le navigateur : une carte interactive des communes
+          d'Auvergne-Rhône-Alpes et NoteFlow, un éditeur de notes par blocs.
         </p>
         <div class="project-tech">
           <span class="tech-tag">React</span>
-          <span class="tech-tag">Node.js</span>
-          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Leaflet.js</span>
+          <span class="tech-tag">JavaScript</span>
         </div>
         <div class="project-footer">
           <span class="project-link">Voir les projets →</span>
@@ -163,16 +228,15 @@
       <!-- PROJECT 004 — Applications -->
       <div class="project-card reveal" data-href="page/applications.html">
         <span class="project-number">PROJECT_004</span>
-        <div class="project-status status-planned"><span>◎</span> Planifié</div>
+        <div class="project-status status-ongoing"><span>●</span> En cours</div>
         <h3 class="project-title">Applications</h3>
         <p class="project-desc">
-          Logiciels desktop, apps mobiles, outils CLI et scripts.
-          Tout ce qui s'installe, s'exécute en local ou tourne en arrière-plan.
+          Jeux et logiciels qui s'installent : deux jeux médiévaux sous Unity 6,
+          un RPG de survie procédural et un jeu de gestion idle.
         </p>
         <div class="project-tech">
-          <span class="tech-tag">Electron</span>
-          <span class="tech-tag">React Native</span>
-          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Unity 6</span>
+          <span class="tech-tag">C#</span>
         </div>
         <div class="project-footer">
           <span class="project-link">Voir les projets →</span>
@@ -240,18 +304,18 @@
       </div>
 
       <div class="skill-group reveal">
-        <div class="skill-group-title">En apprentissage</div>
+        <div class="skill-group-title">Jeu vidéo — en progression</div>
         <div class="skill-item">
-          <div class="skill-name"><span>Rust</span><span class="skill-pct">35%</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="--w:.35"></div></div>
+          <div class="skill-name"><span>Unity 6</span><span class="skill-pct">50%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.50"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-name"><span>WebAssembly</span><span class="skill-pct">25%</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="--w:.25"></div></div>
+          <div class="skill-name"><span>C#</span><span class="skill-pct">50%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.50"></div></div>
         </div>
         <div class="skill-item">
-          <div class="skill-name"><span>Web3 / Blockchain</span><span class="skill-pct">30%</span></div>
-          <div class="skill-bar"><div class="skill-fill" style="--w:.30"></div></div>
+          <div class="skill-name"><span>Génération procédurale</span><span class="skill-pct">40%</span></div>
+          <div class="skill-bar"><div class="skill-fill" style="--w:.40"></div></div>
         </div>
       </div>
 
@@ -340,22 +404,24 @@
       </p>
       <div class="contact-links">
         <a href="#" id="mailto-btn" class="contact-link">✉ Email</a>
-        <a href="https://linkedin.com"   class="contact-link" target="_blank">in LinkedIn</a>
-        <a href="https://github.com"     class="contact-link" target="_blank">⌥ GitHub</a>
+        <a href="https://www.linkedin.com/in/thomas-balestro" class="contact-link" target="_blank" rel="noopener noreferrer">in LinkedIn</a>
+        <a href="https://github.com/ThomasBalestro" class="contact-link" target="_blank" rel="noopener noreferrer">⌥ GitHub</a>
         <a href="#"                      class="contact-link">↓ CV PDF</a>
       </div>
     </div>
   </div>
 </section>
 
+</main>
+
 <!-- ─── FOOTER ─── -->
 <footer>
   <div>Conçu &amp; développé par <span>Thomas Balestro</span></div>
-  <div>© 2025 — <span>Tous droits réservés</span></div>
+  <div>© 2026 — <span>Tous droits réservés</span></div>
 </footer>
 
 <!-- Script -->
-<script src="js/main.js"></script>
+<script src="js/main.js" defer></script>
 
 </body>
 </html>
