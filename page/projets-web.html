@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Projets web — Carte AuRA &amp; NoteFlow | Thomas Balestro</title>
-  <meta name="description" content="Carte interactive des communes d'Auvergne-Rhône-Alpes, NoteFlow (React), tableau de bord analytics en SVG et Kanban : les projets web de Thomas Balestro." />
+  <meta name="description" content="Carte interactive des communes, météo connectée à une API, boutique en ligne, tableau de bord SVG, Kanban et NoteFlow (React) : les projets web de Thomas Balestro." />
   <meta name="author" content="Thomas Balestro" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://thomasbalestro.github.io/Portfolio/page/projets-web.html" />
@@ -18,7 +18,7 @@
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="Thomas Balestro — Portfolio" />
   <meta property="og:title" content="Projets web — Carte AuRA &amp; NoteFlow | Thomas Balestro" />
-  <meta property="og:description" content="Carte interactive des communes d'Auvergne-Rhône-Alpes, NoteFlow (React), tableau de bord analytics en SVG et Kanban : les projets web de Thomas Balestro." />
+  <meta property="og:description" content="Carte interactive des communes, météo connectée à une API, boutique en ligne, tableau de bord SVG, Kanban et NoteFlow (React) : les projets web de Thomas Balestro." />
   <meta property="og:url" content="https://thomasbalestro.github.io/Portfolio/page/projets-web.html" />
   <meta property="og:image" content="https://thomasbalestro.github.io/Portfolio/media/og-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -227,8 +227,8 @@
   <div class="page-category">// Catégorie 02</div>
   <h1 class="page-title">Projets <span>Web</span></h1>
   <p class="page-desc">
-    Des outils qui vivent dans le navigateur : cartographie, prise de notes,
-    tableau de bord analytics et gestion de tâches.
+    Des outils qui vivent dans le navigateur : cartographie, météo en temps réel,
+    boutique en ligne, tableau de bord, gestion de tâches et plus encore.
   </p>
   <div class="page-count">
     <span id="project-count">0</span> projet(s) référencé(s)
@@ -244,6 +244,9 @@
     <button class="filter-btn" data-filter="cartographie">Cartographie</button>
     <button class="filter-btn" data-filter="productivite">Productivité</button>
     <button class="filter-btn" data-filter="dashboard">Dashboard</button>
+    <button class="filter-btn" data-filter="api">API</button>
+    <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+    <button class="filter-btn" data-filter="jeu">Jeu</button>
   </div>
 
   <div class="projects-grid" id="projects-grid">
@@ -262,7 +265,7 @@
         <ul class="project-features">
           <li>Recherche instantanée par nom de commune</li>
           <li>Filtrage et légende par département, avec compteurs</li>
-          <li>7 fonds de carte : standard, sombre, satellite, topographique…</li>
+          <li>8 fonds de carte sans clé d'API : Plan IGN, satellite IGN, OpenStreetMap, mode sombre…</li>
           <li>Données open data : contours GeoJSON (france-geojson) et populations via l'API Géo de l'État</li>
         </ul>
         <div class="project-tech">
@@ -346,6 +349,70 @@
         </div>
         <div class="project-footer">
           <a href="../demos/flux/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Ouvrir la démo →</a>
+        </div>
+    </article>
+
+
+    <article class="project-card reveal" id="ciel" data-tags="api outil" data-href="../demos/ciel/index.html" data-target="_blank">
+        <span class="project-number">WEB_005</span>
+        <div class="project-status status-demo"><span>◆</span> Démo interactive — données réelles</div>
+        <h3 class="project-title">Ciel</h3>
+        <p class="project-desc">Application météo branchée sur l'API publique Open-Meteo : recherche de ville, géolocalisation à la demande, prévisions heure par heure et sur 7 jours.</p>
+        <ul class="project-features">
+          <li>Appels API asynchrones avec délai maximal et gestion d'erreurs</li>
+          <li>Recherche de ville avec anti-rebond (debounce)</li>
+          <li>Fond qui change selon la météo et le jour / la nuit</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Fetch API</span>
+          <span class="tech-tag">REST</span>
+          <span class="tech-tag">SVG</span>
+        </div>
+        <div class="project-footer">
+          <a href="../demos/ciel/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Ouvrir la démo →</a>
+        </div>
+    </article>
+
+    <article class="project-card reveal" id="comptoir" data-tags="ecommerce" data-href="../demos/comptoir/index.html" data-target="_blank">
+        <span class="project-number">WEB_006</span>
+        <div class="project-status status-demo"><span>◆</span> Démo interactive</div>
+        <h3 class="project-title">Comptoir</h3>
+        <p class="project-desc">Mini boutique en ligne d'un torréfacteur fictif : catalogue filtrable et triable, panier latéral, code promo et seuil de livraison offerte.</p>
+        <ul class="project-features">
+          <li>Panier persistant avec quantités et calculs au centime</li>
+          <li>Code promo et barre de progression « livraison offerte »</li>
+          <li>Paiement simulé : aucune donnée bancaire demandée</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">État applicatif</span>
+          <span class="tech-tag">localStorage</span>
+          <span class="tech-tag">Dialog API</span>
+        </div>
+        <div class="project-footer">
+          <a href="../demos/comptoir/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Ouvrir la démo →</a>
+        </div>
+    </article>
+
+    <article class="project-card reveal" id="frappe" data-tags="jeu outil" data-href="../demos/frappe/index.html" data-target="_blank">
+        <span class="project-number">WEB_007</span>
+        <div class="project-status status-demo"><span>◆</span> Démo interactive</div>
+        <h3 class="project-title">Frappe</h3>
+        <p class="project-desc">Test de vitesse de frappe en français : surlignage lettre par lettre, mots par minute et précision en direct, courbe de vitesse et record personnel.</p>
+        <ul class="project-features">
+          <li>Mesure standard (1 mot = 5 caractères)</li>
+          <li>Défilement du texte et curseur animé</li>
+          <li>Correction du mot précédent au retour arrière</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Événements clavier</span>
+          <span class="tech-tag">performance.now()</span>
+          <span class="tech-tag">SVG</span>
+        </div>
+        <div class="project-footer">
+          <a href="../demos/frappe/index.html" class="project-link" target="_blank" rel="noopener noreferrer">Ouvrir la démo →</a>
         </div>
     </article>
 

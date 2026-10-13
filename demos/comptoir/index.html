@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="robots" content="noindex, follow" />
+  <title>Comptoir — Boutique en ligne (démo)</title>
+  <meta name="description" content="Démo réalisée par Thomas Balestro : mini boutique en ligne avec filtres, panier et code promo. Aucune vente réelle." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233d2a1e'/%3E%3Cellipse cx='32' cy='32' rx='12' ry='17' fill='%23d9a066' transform='rotate(25 32 32)'/%3E%3Cpath d='M26 18q10 14 12 28' stroke='%233d2a1e' stroke-width='3' fill='none'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg: #f3ede4; --card: #fffaf3; --ink: #2a1d15; --soft: #7a6a5d; --line: #e4d9ca; --accent: #3d2a1e; --caramel: #d9a066; --green: #3f7d4e; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.5; }
+    .demo { background: var(--accent); color: #e8d8c6; font-size: 12.5px; text-align: center; padding: 7px 16px; }
+    .demo a { color: var(--caramel); }
+    header { position: sticky; top: 0; z-index: 30; background: rgba(243,237,228,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .bar { width: min(1180px, 100% - 32px); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+    .logo { font-family: 'DM Serif Display', serif; font-size: 28px; }
+    .logo i { color: var(--caramel); }
+    .cart-btn { position: relative; background: var(--accent); color: #fff; border: 0; border-radius: 999px; padding: 11px 20px; font: inherit; font-weight: 700; cursor: pointer; display: flex; gap: 10px; align-items: center; }
+    .cart-btn b { background: var(--caramel); color: var(--accent); min-width: 24px; height: 24px; border-radius: 12px; display: grid; place-content: center; font-size: 13px; padding: 0 6px; transition: transform .2s; }
+    .cart-btn b.bump { transform: scale(1.35); }
+    .hero { width: min(1180px, 100% - 32px); margin: 0 auto; padding: 48px 0 28px; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+    h1 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: clamp(40px, 6vw, 68px); line-height: 1; }
+    h1 i { color: #a0693c; }
+    .hero p { color: var(--soft); max-width: 380px; }
+    .tools { width: min(1180px, 100% - 32px); margin: 0 auto 24px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .chip { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 8px 16px; font: inherit; font-weight: 500; cursor: pointer; }
+    .chip[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tools select { margin-left: auto; border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 8px 14px; font: inherit; color: var(--ink); }
+    .grid { width: min(1180px, 100% - 32px); margin: 0 auto 64px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .product { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 18px; display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s; }
+    .product:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(42,29,21,.1); }
+    .pack { height: 190px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 16px; position: relative; overflow: hidden; }
+    .bag { width: 92px; height: 130px; border-radius: 10px 10px 14px 14px; position: relative; box-shadow: inset -12px 0 0 rgba(0,0,0,.12), 0 14px 24px rgba(0,0,0,.18); display: grid; place-content: center; text-align: center; color: #fff; font-family: 'DM Serif Display', serif; font-size: 15px; line-height: 1.1; padding: 8px; }
+    .bag::before { content: ''; position: absolute; top: -10px; left: 6px; right: 6px; height: 16px; background: inherit; filter: brightness(.85); border-radius: 4px; clip-path: polygon(0 100%, 10% 0, 20% 100%, 30% 0, 40% 100%, 50% 0, 60% 100%, 70% 0, 80% 100%, 90% 0, 100% 100%); }
+    .bag small { font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; opacity: .8; margin-top: 6px; }
+    .badge { position: absolute; top: 12px; left: 12px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+    .product h3 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 23px; }
+    .notes { color: var(--soft); font-size: 13.5px; margin: 4px 0 10px; }
+    .roast { display: flex; gap: 4px; align-items: center; font-size: 12px; color: var(--soft); margin-bottom: 14px; }
+    .roast i { width: 14px; height: 6px; border-radius: 3px; background: var(--line); }
+    .roast i.on { background: #8a5a36; }
+    .buy { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+    .price { font-size: 20px; font-weight: 700; }
+    .price small { font-size: 13px; color: var(--soft); font-weight: 400; }
+    .add { background: var(--accent); color: #fff; border: 0; border-radius: 12px; padding: 10px 16px; font: inherit; font-weight: 700; cursor: pointer; transition: background .2s; }
+    .add:hover { background: #5a3f2d; }
+    .add.ok { background: var(--green); }
+    .scrim { position: fixed; inset: 0; background: rgba(42,29,21,.4); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 40; }
+    .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100%); background: var(--card); z-index: 50; transform: translateX(100%); transition: transform .3s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; }
+    .open .scrim { opacity: 1; pointer-events: auto; }
+    .open .drawer { transform: none; }
+    .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 22px; border-bottom: 1px solid var(--line); }
+    .drawer-head h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 26px; }
+    .x { background: none; border: 1px solid var(--line); width: 38px; height: 38px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+    .ship { padding: 14px 22px; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+    .ship .track { height: 6px; border-radius: 3px; background: var(--line); margin-top: 8px; overflow: hidden; }
+    .ship .track span { display: block; height: 100%; background: var(--green); transition: width .4s; }
+    .lines { flex: 1; overflow-y: auto; padding: 8px 22px; list-style: none; }
+    .lines li { display: grid; grid-template-columns: 48px 1fr auto; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .mini { width: 48px; height: 60px; border-radius: 8px; }
+    .lines p { font-weight: 700; }
+    .qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; margin-top: 6px; }
+    .qty button { background: none; border: 0; width: 30px; height: 28px; cursor: pointer; font: inherit; font-weight: 700; }
+    .qty span { min-width: 22px; text-align: center; font-weight: 700; }
+    .lines .lp { font-weight: 700; text-align: right; }
+    .empty { text-align: center; color: var(--soft); padding: 48px 0; }
+    .foot { padding: 18px 22px 22px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+    .promo { display: flex; gap: 8px; }
+    .promo input { flex: 1; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font: inherit; text-transform: uppercase; background: #fff; }
+    .promo button { border: 1px solid var(--accent); background: none; border-radius: 12px; padding: 0 14px; font: inherit; font-weight: 700; cursor: pointer; }
+    .msg { font-size: 13px; min-height: 18px; }
+    .row { display: flex; justify-content: space-between; color: var(--soft); }
+    .row.total { color: var(--ink); font-size: 20px; font-weight: 700; }
+    .checkout { background: var(--accent); color: #fff; border: 0; border-radius: 14px; padding: 15px; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
+    .checkout:disabled { opacity: .4; cursor: default; }
+    dialog { border: 0; border-radius: 24px; padding: 32px; max-width: 400px; width: calc(100% - 32px); text-align: center; background: var(--card); color: var(--ink); }
+    dialog::backdrop { background: rgba(42,29,21,.5); }
+    dialog h3 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 30px; margin: 8px 0; }
+    dialog p { color: var(--soft); margin-bottom: 20px; }
+    @media (max-width: 640px) { .tools select { margin-left: 0; } .hero { padding-top: 32px; } }
+  </style>
+</head>
+<body>
+<div class="demo">Démo interactive — boutique fictive, aucune vente réelle · Thomas Balestro · <a href="../../page/projets-web.html">Retour au portfolio</a></div>
+<header><div class="bar"><div class="logo">Comptoir <i>&amp;</i> Grain</div><button class="cart-btn" id="open-cart" aria-label="Ouvrir le panier">Panier <b id="cart-count">0</b></button></div></header>
+
+<section class="hero">
+  <h1>Des cafés de spécialité,<br/><i>torréfiés à Lyon.</i></h1>
+  <p>Huit origines sélectionnées, torréfiées chaque semaine en petites quantités. Livraison offerte dès 40 €.</p>
+</section>
+
+<div class="tools" role="group" aria-label="Filtres">
+  <button class="chip" data-filter="all" aria-pressed="true">Tous</button>
+  <button class="chip" data-filter="Afrique" aria-pressed="false">Afrique</button>
+  <button class="chip" data-filter="Amérique" aria-pressed="false">Amérique</button>
+  <button class="chip" data-filter="Asie" aria-pressed="false">Asie</button>
+  <select id="sort" aria-label="Trier">
+    <option value="pop">Popularité</option>
+    <option value="asc">Prix croissant</option>
+    <option value="desc">Prix décroissant</option>
+    <option value="roast">Torréfaction</option>
+  </select>
+</div>
+
+<main class="grid" id="grid" aria-live="polite"></main>
+
+<div id="cart-wrap">
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" aria-label="Panier">
+    <div class="drawer-head"><h2>Votre panier</h2><button class="x" id="close-cart" aria-label="Fermer le panier">✕</button></div>
+    <div class="ship" id="ship"></div>
+    <ul class="lines" id="lines"></ul>
+    <div class="foot">
+      <div class="promo"><input id="code" placeholder="Code promo (essayez DEMO10)" maxlength="16" aria-label="Code promo" /><button id="apply" type="button">OK</button></div>
+      <div class="msg" id="msg" role="status"></div>
+      <div class="row"><span>Sous-total</span><span id="sub">0,00 €</span></div>
+      <div class="row" id="disc-row" hidden><span>Remise</span><span id="disc">0,00 €</span></div>
+      <div class="row"><span>Livraison</span><span id="shipcost">—</span></div>
+      <div class="row total"><span>Total</span><span id="total">0,00 €</span></div>
+      <button class="checkout" id="checkout">Valider la commande</button>
+    </div>
+  </aside>
+</div>
+
+<dialog id="done">
+  <div style="font-size:44px">☕</div>
+  <h3>Merci !</h3>
+  <p>Ceci est une démo : aucune commande n'a été passée et aucune donnée bancaire n'est demandée.</p>
+  <button class="checkout" id="close-done" style="width:100%">Continuer</button>
+</dialog>
+
+<script src="app.js" defer></script>
+</body>
+</html>
