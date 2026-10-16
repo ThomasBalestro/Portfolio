@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Intelligence artificielle — Thomas Balestro</title>
+  <meta name="description" content="Projets d'intelligence artificielle de Thomas Balestro : Conteur, un maître du jeu IA pour jeux de rôle en solo ou multijoueur, propulsé par un modèle local (Ollama), avec un moteur de règles qui empêche l'IA de tricher." />
+  <meta name="author" content="Thomas Balestro" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://thomasbalestro.github.io/Portfolio/page/ia.html" />
+  <meta name="theme-color" content="#04040a" />
+  <link rel="icon" href="../media/favicon.svg" type="image/svg+xml" />
+
+  <!-- Partage (LinkedIn, Discord, X…) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Thomas Balestro — Portfolio" />
+  <meta property="og:title" content="Intelligence artificielle — Thomas Balestro" />
+  <meta property="og:description" content="Projets d'intelligence artificielle de Thomas Balestro : Conteur, un maître du jeu IA pour jeux de rôle en solo ou multijoueur, propulsé par un modèle local (Ollama), avec un moteur de règles qui empêche l'IA de tricher." />
+  <meta property="og:url" content="https://thomasbalestro.github.io/Portfolio/page/ia.html" />
+  <meta property="og:image" content="https://thomasbalestro.github.io/Portfolio/media/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Données structurées (Google) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Intelligence artificielle — Thomas Balestro",
+  "url": "https://thomasbalestro.github.io/Portfolio/page/ia.html",
+  "author": { "@type": "Person", "name": "Thomas Balestro", "url": "https://thomasbalestro.github.io/Portfolio/" },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "SoftwareApplication",
+          "name": "Conteur",
+          "applicationCategory": "GameApplication",
+          "operatingSystem": "Windows, Linux, macOS",
+          "url": "https://github.com/ThomasBalestro/conteur",
+          "description": "Maître du jeu IA pour jeux de rôle en solo ou multijoueur, propulsé par un modèle local Ollama, avec moteur de règles d20.",
+          "author": { "@type": "Person", "name": "Thomas Balestro" }
+        }
+      }
+    ]
+  }
+}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .page-hero {
+      min-height: 38vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 140px 48px 56px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(57,255,20,.05), transparent 65%);
+      pointer-events: none;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      margin-bottom: 32px;
+      transition: color .2s;
+      position: relative; z-index: 1;
+    }
+    .back-link:hover { color: var(--cyan); }
+    .back-arrow {
+      width: 28px; height: 1px;
+      background: currentColor;
+      position: relative;
+      transition: width .3s;
+    }
+    .back-arrow::before {
+      content: '';
+      position: absolute;
+      left: 0; top: -3px;
+      width: 7px; height: 7px;
+      border-left: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg);
+    }
+    .back-link:hover .back-arrow { width: 40px; }
+
+    .page-category {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 12px;
+      position: relative; z-index: 1;
+    }
+    .page-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 900; color: #fff; line-height: 1.05;
+      position: relative; z-index: 1;
+    }
+    .page-title span {
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--green);
+    }
+    .page-desc {
+      margin-top: 16px; color: var(--muted);
+      font-size: 13px; max-width: 520px; line-height: 1.8;
+      position: relative; z-index: 1;
+    }
+    .page-count {
+      margin-top: 24px; font-size: 11px;
+      letter-spacing: 2px; color: var(--muted);
+      position: relative; z-index: 1;
+    }
+    .page-count span { color: var(--green); }
+
+    .annex-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 72px 48px 100px;
+    }
+
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 48px; }
+    .filter-btn {
+      padding: 6px 18px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(57,255,20,.05);
+    }
+
+    /* Surcharge couleur accent */
+    .project-card:hover        { border-color: var(--green); }
+    .project-card:hover::after { border-color: transparent var(--green) transparent transparent; }
+    .project-link              { color: var(--green); }
+
+    /* Badges de plateforme */
+    .platform-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 10px;
+      border: 1px solid rgba(57,255,20,.3);
+      color: var(--green);
+      background: rgba(57,255,20,.05);
+      margin-bottom: 16px;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1; text-align: center;
+      padding: 80px 24px; color: var(--muted); font-size: 13px;
+    }
+    .empty-icon { font-size: 40px; margin-bottom: 16px; opacity: .4; }
+
+    @media (max-width: 768px) {
+      .page-hero  { padding: 120px 24px 48px; }
+      .annex-wrap { padding: 48px 24px 80px; }
+    }
+    .project-visual.capture { height: auto !important; padding: 0; display: block !important; }
+    .project-visual.capture::before { display: none; }
+    .project-visual.capture img { display: block; width: 100%; height: auto; }
+    .captures { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; grid-column: 1 / -1; }
+    .captures figure { margin: 0; border: 1px solid var(--border); background: rgba(255,255,255,.02); }
+    .captures img { display: block; width: 100%; height: auto; }
+    .captures figcaption { font-size: 11px; color: var(--muted); padding: 8px 10px; letter-spacing: .04em; }
+    .ia-pipeline { list-style: none; padding: 0; margin: 18px 0 22px; display: grid; gap: 6px; counter-reset: etape; }
+    .ia-pipeline li { counter-increment: etape; font-size: 12px; color: var(--muted); padding-left: 26px; position: relative; }
+    .ia-pipeline li::before { content: counter(etape); position: absolute; left: 0; top: 0; width: 18px; height: 18px; border: 1px solid var(--cyan); color: var(--cyan); font-size: 10px; display: grid; place-items: center; }
+    .ia-pipeline b { color: var(--text); font-weight: 600; }
+    @media (max-width: 768px) { .captures { grid-template-columns: 1fr; } .project-card.featured .project-visual.capture { display: block !important; } }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="../index.html" class="nav-logo">PORT<span style="color:#7c3aed">.</span>FOLIO</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="../index.html#projects" class="nav-link-item">Projets</a></li>
+    <li><a href="../index.html#skills"   class="nav-link-item">Skills</a></li>
+    <li><a href="../index.html#parcours" class="nav-link-item">Parcours</a></li>
+    <li><a href="../index.html#contact"  class="nav-link-item">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-status"><div class="status-dot"></div>Disponible</div>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-overlay" id="nav-overlay">
+  <ul class="nav-overlay-links">
+    <li><a href="../index.html#projects" class="nav-overlay-item">Projets</a></li>
+    <li><a href="../index.html#skills"   class="nav-overlay-item">Skills</a></li>
+    <li><a href="../index.html#parcours" class="nav-overlay-item">Parcours</a></li>
+    <li><a href="../index.html#contact"  class="nav-overlay-item">Contact</a></li>
+  </ul>
+</div>
+
+<main id="main">
+
+<!-- ─── PAGE HERO ─── -->
+<div class="page-hero">
+  <a href="../index.html" class="back-link">
+    <span class="back-arrow"></span>
+    Retour au portfolio
+  </a>
+  <div class="page-category">// Catégorie 05</div>
+  <h1 class="page-title">Intelligence <span>artificielle</span></h1>
+  <p class="page-desc">
+    Des modèles de langage intégrés dans de vraies applications : exécutés en local,
+    encadrés par du code, et utiles du premier coup.
+  </p>
+  <div class="page-count">
+    <span id="project-count">0</span> projet(s) IA référencé(s)
+  </div>
+</div>
+
+<!-- ─── PROJETS ─── -->
+<div class="annex-wrap">
+
+  <div class="projects-grid" id="projects-grid">
+
+    <!-- ══ IA_001 — CONTEUR ══ -->
+    <article class="project-card featured reveal" id="conteur" data-tags="llm jeu" data-href="https://github.com/ThomasBalestro/conteur" data-target="_blank">
+      <div>
+        <span class="project-number">IA_001</span>
+        <div class="platform-badge">🎲 Application web — Node.js + Ollama</div>
+        <div class="project-status status-done"><span>●</span> Terminé · open source</div>
+        <h3 class="project-title">Conteur — maître du jeu IA</h3>
+        <p class="project-desc">
+          Un maître du jeu pour jeux de rôle, en solo ou jusqu'à six amis : chacun décrit
+          ce que fait son personnage, l'IA raconte la suite en direct et fait vivre le monde.
+          Elle tourne en local avec Ollama : gratuit, privé, hors ligne.
+        </p>
+        <ul class="project-features">
+          <li>Multijoueur en temps réel : table avec code d'invitation, tours de parole, messages hors jeu</li>
+          <li>Règles inspirées de D&amp;D 5e : 6 races, 6 classes, compétences, combat, sorts, niveaux</li>
+          <li>Les dés sont lancés par le code, jamais par l'IA ; tout ce qu'elle propose est validé et plafonné</li>
+          <li>Mondes Edolon et Arkeon, ou création de monde assistée par l'IA</li>
+          <li>Sans dépendance npm, CSP stricte, 21 tests dont des parties multijoueur réelles</li>
+        </ul>
+        <ol class="ia-pipeline" aria-label="Déroulé d'un tour de jeu">
+          <li><b>Arbitre</b> — l'IA décide des jets nécessaires (JSON contraint par schéma)</li>
+          <li><b>Dés</b> — le moteur de règles lance et applique bonus, avantage, critiques</li>
+          <li><b>Narrateur</b> — l'IA raconte en respectant les résultats, diffusé mot à mot</li>
+          <li><b>Greffier</b> — or, objets, XP proposés par l'IA, validés par le moteur</li>
+        </ol>
+        <div class="project-tech">
+          <span class="tech-tag">LLM local</span>
+          <span class="tech-tag">Ollama · Qwen3</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">Server-Sent Events</span>
+          <span class="tech-tag">Sorties structurées</span>
+          <span class="tech-tag">JavaScript</span>
+        </div>
+        <div class="project-footer">
+          <a href="https://github.com/ThomasBalestro/conteur" class="project-link" target="_blank" rel="noopener noreferrer">Voir le code sur GitHub →</a>
+        </div>
+      </div>
+      <div class="project-visual capture">
+        <img src="../media/conteur/combat.jpg" width="1200" height="750" alt="Table de jeu Conteur : récit du maître du jeu, jets de d20 avec leurs résultats, fiche du personnage et adversaires du combat" loading="lazy" />
+      </div>
+      <div class="captures">
+        <figure><img src="../media/conteur/accueil.jpg" width="1200" height="717" alt="Accueil de Conteur : jouer en solo, créer une table entre amis, choisir un monde" loading="lazy" /><figcaption>Accueil et choix du monde</figcaption></figure>
+        <figure><img src="../media/conteur/personnage.jpg" width="1200" height="750" alt="Création de personnage : race, classe, caractéristiques" loading="lazy" /><figcaption>Création de personnage</figcaption></figure>
+        <figure><img src="../media/conteur/table.jpg" width="1200" height="750" alt="Partie à deux joueurs avec jets de Discrétion et de Perception" loading="lazy" /><figcaption>Partie à deux joueurs</figcaption></figure>
+      </div>
+    </article>
+
+    <!-- ══ IA_002 — À VENIR ══ -->
+    <article class="project-card reveal soon" id="ia-suivant" aria-label="Prochain projet IA, bientôt">
+      <span class="project-number">IA_002</span>
+      <div class="project-status status-planned"><span>◎</span> En préparation</div>
+      <h3 class="project-title">Prochain projet IA</h3>
+      <p class="project-desc">Un nouvel usage concret des modèles de langage, en cours de développement.</p>
+      <div class="project-footer">
+        <span class="project-link muted">Bientôt disponible</span>
+      </div>
+    </article>
+
+<!-- ══ AJOUTE TES PROCHAINS PROJETS IA ICI ══ -->
+
+    <div class="empty-state" id="empty-state" style="display:none">
+      <div class="empty-icon">◎</div>
+      Aucune application dans cette catégorie pour le moment.
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div>Conçu &amp; développé par <span>Thomas Balestro</span></div>
+  <div><a href="../index.html" style="color:var(--muted);text-decoration:none">← Retour au portfolio</a></div>
+</footer>
+
+<script src="../js/main.js" defer></script>
+<script src="../js/annex.js" defer></script>
+</body>
+</html>
